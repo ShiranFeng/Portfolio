@@ -1,6 +1,6 @@
 #projects.home-projects { position: relative; min-height: 100svh; padding: clamp(4.5rem, 9vw, 8rem) max(1.5rem, calc((100vw - 1200px) / 2)); text-align: center; overflow: hidden; }
 #projects .home-projects__inner { position: relative; z-index: 1; width: 100%; max-width: 1200px; }
-.home-projects__star { position: absolute; z-index: 0; width: clamp(2.8rem, 5vw, 5rem); height: auto; opacity: .46; filter: saturate(.55) brightness(.85); pointer-events: none; }
+.home-projects__star { position: absolute; z-index: 0; width: clamp(2.8rem, 5vw, 5rem); height: auto; opacity: .7; filter: drop-shadow(0 5px 8px #0003); pointer-events: none; }
 .home-projects__star--left { left: clamp(1.5rem, 5vw, 7rem); top: 22%; transform: rotate(-13deg); }
 .home-projects__star--right { right: clamp(1.5rem, 6vw, 8rem); bottom: 17%; width: clamp(2rem, 3.6vw, 3.7rem); transform: rotate(19deg); }
 .home-projects__intro { max-width: 42rem; margin: 0 auto clamp(2rem, 4vw, 3.5rem); }

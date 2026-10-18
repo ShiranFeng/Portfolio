@@ -8,16 +8,17 @@
 .orbit-lines path { fill: none; stroke: #fff; stroke-width: .8; stroke-opacity: .26; vector-effect: non-scaling-stroke; }
 .orbit-lines--back { z-index: 1; }
 .orbit-lines--front { z-index: 4; }
-.orbit-icon { position: absolute; width: 9.5%; height: 14%; padding: 0; border: 0; background: none; transform: translate(-50%, -50%); filter: saturate(.62) brightness(.9) drop-shadow(0 5px 7px #0004); cursor: pointer; pointer-events: auto; transition: filter .2s ease, scale .2s ease; }
-.orbit-icon > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.orbit-icon { position: absolute; width: 11.5%; height: 17%; padding: 0; border: 0; background: none; transform: translate(-50%, -50%); filter: saturate(.88) brightness(.94) drop-shadow(0 7px 9px #0005); cursor: pointer; pointer-events: auto; transition: filter .2s ease, scale .2s ease; }
+.orbit-sticker { display: block; width: 100%; height: 100%; object-fit: contain; }
 .orbit-icon:hover, .orbit-icon:focus-visible, .orbit-icon.is-tooltip-open { z-index: 30 !important; scale: 1.04; filter: saturate(.75) brightness(.96) drop-shadow(0 6px 8px #0005); outline: none; }
 .orbit-tooltip { position: absolute; left: 50%; top: calc(100% + .55rem); z-index: 20; width: min(14rem, 40vw); padding: .7rem .8rem; border: 1px solid #d7efff69; border-radius: .75rem; color: #f8fcff; background: #102535e8; box-shadow: 0 12px 24px #0006, inset 0 1px 0 #fff4; font-family: Archivo, sans-serif; font-size: clamp(.65rem, 1vw, .78rem); font-weight: 400; line-height: 1.4; text-align: left; transform: translate(-50%, -4px); opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; }
 .orbit-tooltip strong { display: block; margin-bottom: .2rem; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; }
 @media (pointer: fine) { .orbit-icon:hover .orbit-tooltip, .orbit-icon:focus-visible .orbit-tooltip { opacity: 1; transform: translate(-50%, 0); } }
-@media (pointer: coarse) { .orbit-icon.is-tooltip-open .orbit-tooltip { opacity: 1; transform: translate(-50%, 0); } }
+.orbit-icon.is-tooltip-open .orbit-tooltip { opacity: 1; transform: translate(-50%, 0); }
 .orbit-pause { color: inherit; background: transparent; border: 1px solid #ffffff60; border-radius: 2rem; padding: .5rem 1rem; font-size: .75rem; }
 .home-space-scene { position: relative; isolation: isolate; background: var(--bs-secondary); }
 .home-space-scene .orbit-hero { overflow: visible; background: transparent; z-index: 1; }
+.home-space-scene .orbit-hero::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: url("../assets/home-stars/starfield-overlay.png") center / cover no-repeat; opacity: .46; filter: saturate(.82) brightness(.86); mix-blend-mode: screen; -webkit-mask-image: radial-gradient(ellipse 64% 55% at 50% 24%, transparent 0 16%, #0003 38%, #000 76%), linear-gradient(to bottom, #000 0 72%, #0008 86%, transparent 100%); -webkit-mask-composite: source-in; mask-image: radial-gradient(ellipse 64% 55% at 50% 24%, transparent 0 16%, #0003 38%, #000 76%), linear-gradient(to bottom, #000 0 72%, #0008 86%, transparent 100%); mask-composite: intersect; }
 .home-space-scene #about { background: transparent; }
 .home-space-scene #about > div { position: relative; z-index: 2; }
 .star-stage { width: 100%; aspect-ratio: 1440 / 780; min-height: min(78vw, 819px); margin-top: clamp(-12rem, -11vw, -10rem); }
@@ -30,18 +31,4 @@
 @media (prefers-reduced-motion: reduce) {
   .star-stage .orbit-astronaut { animation: none; }
 }
-.space-object { position: absolute; z-index: 1; height: auto; pointer-events: none; user-select: none; transform: scale(.78); transform-origin: center; filter: saturate(.6) brightness(.9); }
-.space-object--large { left: 5%; top: 8%; width: 11%; }
-.space-object--small { left: 23%; top: 5%; width: 6%; }
-.space-object--sparkle { left: 20%; top: 31%; width: 5%; }
-.space-object--moon { left: 83%; top: 5%; width: 12%; }
-.space-object--saturn { left: 3%; top: 45%; width: 14%; }
-.space-object--burst { left: 75%; top: 16%; width: 5%; }
-.space-object--constellation { left: 80%; top: 42%; width: 15%; }
-.space-object--orb { left: 76%; top: 35%; width: 3%; }
-.space-object--tilted { left: 18%; top: 64%; width: 7%; }
-.space-object--bottom { left: 7%; top: 78%; width: 8%; }
-.space-object--glint { left: 37%; top: 78%; width: 5%; }
-.space-object--mini { left: 54%; top: 83%; width: 4%; }
-.space-object--shooting { left: 69%; top: 78%; width: 27%; }
 @media(max-width:700px) { .orbit-hero.mind-hero { min-height: 0; padding-block: 2rem 3rem; } .orbit-hero .mind-name { font-size: clamp(4.8rem, 24vw, 8.5rem); line-height: .88; } .orbit-stage { margin-top: -5.5rem; margin-bottom: 1rem; } .orbit-hero .mind-role { width: auto; font-size: .6rem; } }

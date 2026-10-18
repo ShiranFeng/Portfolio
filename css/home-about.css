@@ -12,14 +12,13 @@
 .about-journey__tether path { fill: none; stroke: #fcf9f340; stroke-width: 1; }
 .about-journey__stops { list-style: none; margin: 0; padding: 0; }
 .about-journey__stops li { position: absolute; left: var(--x); top: var(--y); width: 18%; transform: translate(-50%, -22px); text-align: center; }
-.about-journey__stops img { display: block; width: 42px; height: 42px; object-fit: contain; margin: 0 auto 14px; }
+.about-journey__stops a::before { content: ""; display: block; width: 7px; height: 7px; margin: 0 auto 16px; border-radius: 50%; background: #fff; box-shadow: 0 0 7px #fff, 0 0 18px color-mix(in srgb, var(--node-color) 65%, transparent); }
 .about-journey__stops strong { display: block; font-size: clamp(.85rem, 1.4vw, 1.1rem); color: var(--node-color); font-weight: 500; }
 .about-journey__stops li:nth-child(1) { --node-color: #b5cad5; --hue: 155deg; --tilt: -4deg; }
 .about-journey__stops li:nth-child(2) { --node-color: #becdb7; --hue: 55deg; --tilt: 4deg; }
 .about-journey__stops li:nth-child(3) { --node-color: #d8b8b4; --hue: 315deg; --tilt: -3deg; }
 .about-journey__stops li:nth-child(4) { --node-color: #c6bdd8; --hue: 220deg; --tilt: 4deg; }
 .about-journey__stops li:nth-child(5) { --node-color: #d8c8aa; --hue: 0deg; --tilt: -4deg; }
-.about-journey__stops li img { filter: hue-rotate(var(--hue)) saturate(.3); }
 .about-journey__stops a { display: block; color: inherit; text-decoration: none; border-radius: 8px; transition: transform .25s ease; }
 .about-journey__stops a:hover, .about-journey__stops a:focus-visible { transform: translateY(-3px) rotate(var(--tilt)); }
 .about-journey__stops a:focus-visible { outline: 2px solid var(--node-color); outline-offset: 8px; }
@@ -41,7 +40,7 @@
   .about-journey__route, .about-journey__tether { display: none; }
   .about-journey__stops { position: relative; margin-left: 20px; border-left: 1px dashed #fcf9f380; }
   .about-journey__stops li { position: relative; left: auto; top: auto; width: auto; transform: none; text-align: left; min-height: 145px; padding-left: 44px; }
-  .about-journey__stops img { position: absolute; left: -21px; top: 0; }
+  .about-journey__stops a::before { position: absolute; left: -48px; top: 4px; }
   .about-journey__stops span { max-width: 28ch; margin-left: 0; }
   .about-journey__astronaut { width: 125px; left: auto; right: 0; top: auto; bottom: 0; }
 }
