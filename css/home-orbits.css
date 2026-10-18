@@ -1,8 +1,8 @@
 .orbit-hero.mind-hero { height: auto; min-height: calc(100svh - 76px); overflow: hidden; padding: 1rem 0 2rem; display: flex; flex-direction: column; align-items: center; }
-.orbit-hero .mind-name { position: relative; top: auto; font-size: clamp(4.5rem, 15vw, 13rem); z-index: 1; }
+.orbit-hero .mind-name { position: relative; top: auto; z-index: 1; width: 100%; padding-inline: 0; font-size: clamp(7rem, 17vw, 20rem); line-height: .82; letter-spacing: -.045em; }
 .orbit-hero .mind-role { position: relative; top: auto; right: auto; text-align: center; margin: .5rem 1rem 0; font-size: .75rem; }
 .orbit-hero .mind-scene { display: none; }
-.orbit-stage { position: relative; isolation: isolate; width: min(100%, 1050px); aspect-ratio: 1000 / 650; margin-top: -1rem; }
+.orbit-stage { position: relative; z-index: 2; isolation: isolate; width: min(100%, 1050px); aspect-ratio: 1000 / 650; margin-top: -1rem; }
 .orbit-astronaut { position: absolute; left: 50%; top: 4%; width: 47%; height: auto; transform: translateX(-50%); z-index: 3; pointer-events: auto; }
 .orbit-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .orbit-lines path { fill: none; stroke: #fff; stroke-width: .8; stroke-opacity: .26; vector-effect: non-scaling-stroke; }
@@ -20,7 +20,7 @@
 .home-space-scene .orbit-hero { overflow: visible; background: transparent; z-index: 1; }
 .home-space-scene #about { background: transparent; }
 .home-space-scene #about > div { position: relative; z-index: 2; }
-.star-stage { width: 100%; aspect-ratio: 1440 / 780; min-height: min(78vw, 819px); margin-top: 1rem; }
+.star-stage { width: 100%; aspect-ratio: 1440 / 780; min-height: min(78vw, 819px); margin-top: clamp(-12rem, -11vw, -10rem); }
 .orbit-system { position: absolute; left: 50%; top: 0; z-index: 10; width: min(100%, 1050px); aspect-ratio: 1000 / 650; transform: translateX(-50%); isolation: isolate; }
 .star-stage .orbit-astronaut { width: 47%; top: 4%; animation: astronaut-float 6s ease-in-out infinite; }
 @keyframes astronaut-float {
@@ -44,4 +44,5 @@
 .space-object--glint { left: 37%; top: 78%; width: 5%; }
 .space-object--mini { left: 54%; top: 83%; width: 4%; }
 .space-object--shooting { left: 69%; top: 78%; width: 27%; }
-@media(max-width:700px) { .orbit-hero.mind-hero { min-height: 0; padding-block: 2rem 3rem; } .orbit-stage { margin-block: 1rem; } .orbit-hero .mind-role { width: auto; font-size: .6rem; } }
+@media(max-width:700px) { .orbit-hero.mind-hero { min-height: 0; padding-block: 2rem 3rem; } .orbit-hero .mind-name { font-size: clamp(4.8rem, 24vw, 8.5rem); line-height: .88; } .orbit-stage { margin-top: -5.5rem; margin-bottom: 1rem; } .orbit-hero .mind-role { width: auto; font-size: .6rem; } }
+
