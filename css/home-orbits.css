@@ -45,4 +45,3 @@
 .space-object--mini { left: 54%; top: 83%; width: 4%; }
 .space-object--shooting { left: 69%; top: 78%; width: 27%; }
 @media(max-width:700px) { .orbit-hero.mind-hero { min-height: 0; padding-block: 2rem 3rem; } .orbit-hero .mind-name { font-size: clamp(4.8rem, 24vw, 8.5rem); line-height: .88; } .orbit-stage { margin-top: -5.5rem; margin-bottom: 1rem; } .orbit-hero .mind-role { width: auto; font-size: .6rem; } }
-

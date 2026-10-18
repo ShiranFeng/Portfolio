@@ -30,4 +30,3 @@
 .home-projects__all:hover, .home-projects__all:focus-visible { color: #fff; text-decoration: underline; text-underline-offset: .3rem; }
 @media (max-width: 760px) { #projects.home-projects { min-height: auto; } .home-projects__star { display: none; } .home-projects__grid { grid-template-columns: 1fr; } .project-glass-card { max-width: 35rem; margin-inline: auto; } }
 @media (prefers-reduced-motion: reduce) { .project-glass-card, .project-glass-card > img, .project-glass-card__arrow { transition: none; transform: none; } }
-
