@@ -1,5 +1,5 @@
 .orbit-hero.mind-hero { height: auto; min-height: calc(100svh - 76px); overflow: hidden; padding: 1rem 0 2rem; display: flex; flex-direction: column; align-items: center; }
-.orbit-hero .mind-name { position: relative; top: auto; z-index: 1; width: 100%; padding-inline: 0; font-size: clamp(7rem, 17vw, 20rem); line-height: .82; letter-spacing: -.045em; }
+.orbit-hero .mind-name { position: relative; top: auto; z-index: 1; width: 100%; padding-inline: 0; font-size: clamp(9.1rem, 22.1vw, 26rem); line-height: .82; letter-spacing: -.045em; }
 .orbit-hero .mind-role { position: relative; top: auto; right: auto; text-align: center; margin: .5rem 1rem 0; font-size: .75rem; }
 .orbit-hero .mind-scene { display: none; }
 .orbit-stage { position: relative; z-index: 2; isolation: isolate; width: min(100%, 1050px); aspect-ratio: 1000 / 650; margin-top: -1rem; }
@@ -22,7 +22,7 @@
 .home-space-scene #about { background: transparent; }
 .home-space-scene #about > div { position: relative; z-index: 2; }
 .star-stage { width: 100%; aspect-ratio: 1440 / 780; min-height: min(78vw, 819px); margin-top: clamp(-12rem, -11vw, -10rem); }
-.orbit-system { position: absolute; left: 50%; top: 0; z-index: 10; width: min(100%, 1050px); aspect-ratio: 1000 / 650; transform: translateX(-50%); isolation: isolate; }
+.orbit-system { position: absolute; left: 50%; top: calc(clamp(2rem, 5vw, 4.5rem) + 70px); z-index: 10; width: min(100%, 1050px); aspect-ratio: 1000 / 650; transform: translateX(-50%); isolation: isolate; }
 .star-stage .orbit-astronaut { width: 47%; top: 4%; animation: astronaut-float 6s ease-in-out infinite; }
 @keyframes astronaut-float {
   0%, 100% { transform: translate(-50%, 0); }
@@ -49,7 +49,7 @@
   .space-object--mini { left: 29%; bottom: 7%; }
   .space-object--shooting { right: -8%; bottom: 3%; width: 48%; }
 }
-@media(max-width:700px) { .orbit-hero.mind-hero { min-height: 0; padding-block: 2rem 3rem; } .orbit-hero .mind-name { font-size: clamp(4.8rem, 24vw, 8.5rem); line-height: .88; } .orbit-stage { margin-top: -5.5rem; margin-bottom: 1rem; } .orbit-hero .mind-role { width: auto; font-size: .6rem; } }
+@media(max-width:700px) { .orbit-hero.mind-hero { min-height: 0; padding-block: 2rem 3rem; } .orbit-hero .mind-name { font-size: clamp(6.24rem, 31.2vw, 11.05rem); line-height: .88; } .orbit-stage { margin-top: -5.5rem; margin-bottom: 1rem; } .orbit-hero .mind-role { width: auto; font-size: .6rem; } }
 
 /* A continuous, low-contrast constellation carries the visitor between each chapter. */
 .home-page #main { position: relative; isolation: isolate; overflow: clip; background: radial-gradient(ellipse 85% 36% at 50% 18%, #263d4a55, transparent 70%), #0c1821; }
