@@ -31,4 +31,36 @@
 @media (prefers-reduced-motion: reduce) {
   .star-stage .orbit-astronaut { animation: none; }
 }
+.space-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.space-object { position: absolute; display: block; pointer-events: none; user-select: none; will-change: transform, opacity; background-image: url("../assets/home-stars/glow-stars-and-comets-v2.png"); background-repeat: no-repeat; mix-blend-mode: screen; filter: saturate(.38) sepia(.08) brightness(1.1) contrast(.9) drop-shadow(0 0 8px #e8dcc870); }
+.space-object--large { left: 4%; top: 16%; width: clamp(3.5rem, 8vw, 8rem); aspect-ratio: .86; opacity: .78; background-size: 310% auto; background-position: 0 0; }
+.space-object--small { left: 20%; top: 8%; width: clamp(2.5rem, 4.7vw, 5rem); aspect-ratio: .92; opacity: .72; background-size: 360% auto; background-position: 48% 0; }
+.space-object--sparkle { left: 17%; top: 52%; width: clamp(2rem, 3.8vw, 4rem); aspect-ratio: .92; opacity: .68; background-size: 500% auto; background-position: 0 47%; }
+.space-object--burst { right: 12%; top: 19%; width: clamp(2rem, 3.4vw, 3.6rem); aspect-ratio: 1; opacity: .74; background-size: 550% auto; background-position: 62% 48%; }
+.space-object--tilted { right: 6%; top: 47%; width: clamp(2.8rem, 5.2vw, 5.6rem); aspect-ratio: 1.15; opacity: .7; background-size: 280% auto; background-position: 100% 47%; }
+.space-object--mini { left: 36%; bottom: 6%; width: clamp(1.8rem, 3vw, 3.1rem); aspect-ratio: 1; opacity: .7; background-size: 470% auto; background-position: 20% 100%; }
+.space-object--shooting { right: 2%; bottom: 1%; z-index: 4; width: min(29%, 25rem); aspect-ratio: 2.1; opacity: .68; background-image: url("../assets/home-stars/isolated-comet-v1.png"); background-size: contain; background-position: center; filter: saturate(.3) brightness(1.02) contrast(.86) drop-shadow(0 0 14px #d4e4ee6b); transform-origin: center; }
+@media (max-width: 700px) {
+  .space-object--large { left: -2%; top: 20%; }
+  .space-object--small { left: 13%; top: 10%; }
+  .space-object--sparkle { left: 9%; top: 58%; }
+  .space-object--burst { right: 7%; top: 23%; }
+  .space-object--tilted { right: -3%; top: 49%; }
+  .space-object--mini { left: 29%; bottom: 7%; }
+  .space-object--shooting { right: -8%; bottom: 3%; width: 48%; }
+}
 @media(max-width:700px) { .orbit-hero.mind-hero { min-height: 0; padding-block: 2rem 3rem; } .orbit-hero .mind-name { font-size: clamp(4.8rem, 24vw, 8.5rem); line-height: .88; } .orbit-stage { margin-top: -5.5rem; margin-bottom: 1rem; } .orbit-hero .mind-role { width: auto; font-size: .6rem; } }
+
+/* A continuous, low-contrast constellation carries the visitor between each chapter. */
+.home-page #main { position: relative; isolation: isolate; overflow: clip; background: radial-gradient(ellipse 85% 36% at 50% 18%, #263d4a55, transparent 70%), #0c1821; }
+.home-story-sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: .72; transition: opacity .7s ease; }
+.home-page #main > :not(.home-story-sky) { position: relative; z-index: 1; }
+.home-page #about, .home-page #gallery, .home-page #projects, .home-page #work { background-color: transparent; }
+.home-story-spark, .home-story-comet { position: absolute; display: block; background-image: url("../assets/home-stars/glow-stars-and-comets-v2.png"); background-repeat: no-repeat; mix-blend-mode: screen; filter: saturate(.28) brightness(1.05) contrast(.84) drop-shadow(0 0 10px #efe5d342); will-change: transform, opacity; }
+.home-story-spark--one { width: clamp(2rem,4vw,4.25rem); aspect-ratio: 1; background-size: 520% auto; background-position: 62% 48%; left: 6%; top: 18%; opacity: .38; }
+.home-story-spark--two { width: clamp(1.5rem,3vw,3rem); aspect-ratio: .92; background-size: 500% auto; background-position: 0 47%; right: 8%; top: 35%; opacity: .3; }
+.home-story-spark--three { width: clamp(2.3rem,4.5vw,4.7rem); aspect-ratio: .92; background-size: 360% auto; background-position: 48% 0; right: 14%; bottom: 12%; opacity: .28; }
+.home-story-comet { width: min(20vw,18rem); aspect-ratio: 2.1; background-image: url("../assets/home-stars/isolated-comet-v1.png"); background-size: contain; background-position: center; right: -5%; top: 72%; opacity: .34; filter: saturate(.22) brightness(1.03) contrast(.84) drop-shadow(0 0 16px #d4e4ee5b); transform: rotate(-8deg); }
+.home-story-sky[data-chapter="1"] { opacity: .82; }.home-story-sky[data-chapter="2"] { opacity: .55; }.home-story-sky[data-chapter="3"] { opacity: .68; }.home-story-sky[data-chapter="4"] { opacity: .48; }
+@media (max-width: 700px) { .home-story-spark--one { left: 3%; }.home-story-spark--two { right: 3%; }.home-story-comet { width: 38vw; } }
+@media (prefers-reduced-motion: reduce) { .home-story-sky { opacity: .35; }.home-story-spark--one { left: 9%; top: 25%; }.home-story-spark--two { right: 8%; top: 49%; }.home-story-spark--three { right: 12%; bottom: 18%; }.home-story-comet { right: 3%; top: 62%; opacity: .25; } }

@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/home-motion.css">
   <link rel="stylesheet" href="css/home-paper.css">
   <script src="js/home-motion.js?v=comet-8" defer></script>
+  <script src="js/home-comet.js?v=12" defer></script>
   <link rel="stylesheet" href="css/home-gallery.css">
   <link rel="stylesheet" href="css/home-about.css">
   <link rel="stylesheet" href="css/home-projects.css?v=section-scope-3">
@@ -35,10 +36,24 @@
 
   <div id="navbar-placeholder" data-depth="0"></div>
   <main id="main">
+    <div class="home-story-sky" aria-hidden="true">
+      <span class="home-story-spark home-story-spark--one"></span>
+      <span class="home-story-spark home-story-spark--two"></span>
+      <span class="home-story-spark home-story-spark--three"></span>
+      <span class="home-story-comet"></span>
+    </div>
     <div class="home-space-scene">
     <section class="mind-hero orbit-hero" id="torn-paper-mind" aria-labelledby="hero-title">
       <h1 class="mind-name" id="hero-title">Shiran Alex</h1>
       <div class="orbit-stage star-stage" role="region" aria-label="Orbiting parts of Alex's story">
+        <div class="space-layer space-layer--far" aria-hidden="true">
+          <span class="space-object space-object--large"></span>
+          <span class="space-object space-object--small"></span>
+          <span class="space-object space-object--sparkle"></span>
+          <span class="space-object space-object--burst"></span>
+          <span class="space-object space-object--tilted"></span>
+          <span class="space-object space-object--mini"></span>
+        </div>
         <div class="orbit-system">
         <svg class="orbit-lines orbit-lines--back" viewBox="0 0 1000 650" aria-hidden="true"></svg>
         <img class="orbit-astronaut" src="assets/home-astronaut/gaze-center.png" alt="" width="1292" height="1218" data-gaze="center">
@@ -50,6 +65,7 @@
         <button class="orbit-icon" type="button" data-orbit="1" aria-describedby="orbit-dog-note" aria-expanded="false"><img class="orbit-sticker" src="assets/home-icons/orbit-dog.png?v=2" alt=""><span class="orbit-tooltip" id="orbit-dog-note"><strong>Mi Gao</strong>My dog, and a very important member of my family.</span></button>
         <button class="orbit-icon" type="button" data-orbit="2" aria-describedby="orbit-snowboard-note" aria-expanded="false"><img class="orbit-sticker" src="assets/home-icons/orbit-snowboard.png" alt=""><span class="orbit-tooltip" id="orbit-snowboard-note"><strong>Snowboarding</strong>One of the ways I love to spend a day outside.</span></button>
         </div>
+        <span class="space-object space-object--shooting" id="home-shooting-star" aria-hidden="true"></span>
       </div>
       <svg class="mind-definitions" width="0" height="0" aria-hidden="true"><defs>
         <clipPath id="portrait-outline" clipPathUnits="objectBoundingBox"><path d="M.49,.047 L.55,.071 .62,.079 .71,.112 .77,.167 .823,.235 .862,.308 .849,.369 .819,.425 .786,.458 .772,.507 .746,.57 .706,.634 .677,.698 .64,.756 .647,.799 .669,.828 .652,.868 .597,.885 .555,.915 .503,.926 .458,.902 .408,.893 .356,.874 .298,.853 .257,.814 .24,.774 .264,.721 .266,.656 .244,.586 .222,.538 .196,.514 .178,.465 .166,.404 .139,.367 .14,.305 .177,.253 .206,.197 .265,.151 .323,.113 .393,.082 .454,.063 Z"/></clipPath>
@@ -86,11 +102,11 @@
       <div class="about-journey__map">
         <svg class="about-journey__route" viewBox="0 0 1000 420" aria-hidden="true"><path d="M80 260 C140 300 190 305 270 285 S390 85 480 135 S670 320 730 250 S845 185 910 75"/></svg>
         <ol class="about-journey__stops">
-          <li style="--x:8%;--y:61.9%;--delay:0s"><a href="about.html#weifang"><strong>Weifang</strong><span>Where my story starts.</span></a></li>
-          <li style="--x:27%;--y:67.9%;--delay:.18s"><a href="about.html#toronto"><strong>Toronto</strong><span>A different place to see from.</span></a></li>
-          <li style="--x:48%;--y:32.1%;--delay:.36s"><a href="about.html#ocad"><strong>OCAD</strong><span>Learning through illustration.</span></a></li>
-          <li style="--x:73%;--y:59.5%;--delay:.54s"><a href="about.html#drawing"><strong>Drawing & stories</strong><span>Ideas finding their own shape.</span></a></li>
-          <li style="--x:91%;--y:17.9%;--delay:.72s"><a href="about.html#next"><strong>What's next?</strong><span>Seeing what drawing can become.</span></a></li>
+          <li style="--x:8%;--y:61.9%;--delay:0s"><a href="about.html"><strong>Weifang</strong><span>Where my story starts.</span></a></li>
+          <li style="--x:27%;--y:67.9%;--delay:.18s"><a href="about.html"><strong>Toronto</strong><span>A different place to see from.</span></a></li>
+          <li style="--x:48%;--y:32.1%;--delay:.36s"><a href="about.html#education-title"><strong>OCAD</strong><span>Learning through illustration.</span></a></li>
+          <li style="--x:73%;--y:59.5%;--delay:.54s"><a href="gallery.html"><strong>Drawing & stories</strong><span>Ideas finding their own shape.</span></a></li>
+          <li style="--x:91%;--y:17.9%;--delay:.72s"><a href="about.html#contact-title"><strong>What's next?</strong><span>Seeing what drawing can become.</span></a></li>
         </ol>
         <img class="about-journey__astronaut" src="assets/home-astronaut/about-spaceship.png" width="1391" height="1131" alt="" aria-hidden="true">
       </div>
@@ -133,20 +149,20 @@
           <p>Three projects, three real audiences: a city nobody's heard of, a client who needed something a five-year-old could love, and my own worst ski days.</p>
         </div>
         <div class="home-projects__grid">
+          <a class="project-glass-card project-glass-card--slope" href="projects/powder-report/index.html" aria-label="Read the SlopeSide case study">
+            <img src="projects/powder-report/assets/slopeside-promo.png" alt="SlopeSide campaign visual showing a phone held in a ski glove" loading="lazy">
+            <span class="project-glass-card__shine" aria-hidden="true"></span>
+            <span class="project-glass-card__content"><img class="project-glass-card__brand-mark" src="projects/powder-report/assets/slopeside-mark.png" alt=""><span class="project-glass-card__number">01</span><span class="project-glass-card__copy"><strong>SlopeSide</strong><small>Case Study · Brand &amp; Experience</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
+          </a>
           <a class="project-glass-card project-glass-card--baguio" href="projects/baguio/index.html" aria-label="Read the Baguio travel poster case study">
             <img src="projects/baguio/assets/final-poster.png" alt="Colourful Baguio travel poster" loading="lazy">
             <span class="project-glass-card__shine" aria-hidden="true"></span>
-            <span class="project-glass-card__content"><span class="project-glass-card__number">01</span><span class="project-glass-card__copy"><strong>Baguio</strong><small>Illustration · Poster</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
+            <span class="project-glass-card__content"><span class="project-glass-card__number">02</span><span class="project-glass-card__copy"><strong>Baguio</strong><small>Illustration · Poster</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
           </a>
           <a class="project-glass-card project-glass-card--pin" href="projects/pin-it-down/index.html" aria-label="Read the Pin It Down case study">
             <img src="projects/pin-it-down/assets/final-magnet-mockup.png" alt="Panda and gourd fridge magnet mockup" loading="lazy">
             <span class="project-glass-card__shine" aria-hidden="true"></span>
-            <span class="project-glass-card__content"><span class="project-glass-card__number">02</span><span class="project-glass-card__copy"><strong>Pin It Down</strong><small>Product Design · Toy / Gift</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
-          </a>
-          <a class="project-glass-card project-glass-card--slope" href="projects/powder-report/index.html" aria-label="Read the SlopeSide case study">
-            <img src="projects/powder-report/assets/slopeside-promo.png" alt="SlopeSide campaign visual showing a phone held in a ski glove" loading="lazy">
-            <span class="project-glass-card__shine" aria-hidden="true"></span>
-            <span class="project-glass-card__content"><img class="project-glass-card__brand-mark" src="projects/powder-report/assets/slopeside-mark.png" alt=""><span class="project-glass-card__number">03</span><span class="project-glass-card__copy"><strong>SlopeSide</strong><small>Case Study · Brand &amp; Experience</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
+            <span class="project-glass-card__content"><span class="project-glass-card__number">03</span><span class="project-glass-card__copy"><strong>Pin It Down</strong><small>Product Design · Toy / Gift</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
           </a>
         </div>
         <a class="home-projects__all" href="projects/index.html">View all projects <span aria-hidden="true">↗</span></a>
@@ -211,5 +227,6 @@
   <script src="js/main.js"></script>
   <script src="js/home-orbits.js"></script>
   <script src="js/home-sections.js"></script>
+  <script src="js/home-story.js"></script>
 </body>
 </html>
