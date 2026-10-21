@@ -38,9 +38,6 @@
     const sources = new Set([...document.querySelectorAll('img[src]')]
       .filter(image => !image.closest('[hidden], .mind-scene'))
       .map(image => image.src).filter(Boolean));
-    for (const gaze of ['center', 'up-left', 'up', 'up-right', 'left', 'right', 'down-left', 'down', 'down-right']) {
-      sources.add(new URL(`assets/home-astronaut/gaze-${gaze}.png`, location.href).href);
-    }
     const tasks = [...sources].map(imageReady);
     tasks.push(bounded(document.fonts.ready));
     for (const id of ['navbar-placeholder', 'footer-placeholder']) {
