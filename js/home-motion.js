@@ -65,7 +65,8 @@
   const tick = time => {
     frame = 0;
     if (paused || !visible || document.hidden) { last = 0; return; }
-    if (last) elapsed += Math.min(50, time - last) / 1000;
+    // Freeze the orbiting icons when the visitor scrolls into the astronaut sequence.
+    if (last && window.scrollY < 1) elapsed += Math.min(50, time - last) / 1000;
     last = time; draw(); frame = requestAnimationFrame(tick);
   };
   const sync = () => {

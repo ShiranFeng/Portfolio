@@ -3,7 +3,7 @@
 .orbit-hero .mind-role { position: relative; top: auto; right: auto; text-align: center; margin: .5rem 1rem 0; font-size: .75rem; }
 .orbit-hero .mind-scene { display: none; }
 .orbit-stage { position: relative; z-index: 2; isolation: isolate; width: min(100%, 1050px); aspect-ratio: 1000 / 650; margin-top: -1rem; }
-.orbit-astronaut { --walk-y: 0px; --float-y: 0px; --walk-scale: 1; position: absolute; left: 50%; top: 4%; width: 47%; aspect-ratio: 1149 / 1369; transform: translate(-50%, calc(var(--walk-y) + var(--float-y))) scale(var(--walk-scale)); transform-origin: 50% 20%; z-index: 3; pointer-events: none; }
+.orbit-astronaut { --walk-y: 0px; --float-y: 0px; --walk-scale: 1; position: absolute; left: 50%; top: 4%; width: 47%; aspect-ratio: 1149 / 1369; transform: translate(calc(-50% + var(--walk-x, 0px)), calc(var(--walk-y) + var(--float-y))) scale(var(--walk-scale)); transform-origin: 50% 20%; z-index: 3; pointer-events: none; }
 .orbit-astronaut__frame { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; will-change: opacity; }
 .orbit-astronaut__gaze { position: absolute; inset: 0; z-index: 5; opacity: var(--gaze-opacity, 1); pointer-events: none; }
 .orbit-astronaut__eye { position: absolute; width: 7.1%; aspect-ratio: 1.58; overflow: hidden; border-radius: 50%; clip-path: ellipse(48% 47% at 50% 50%); isolation: isolate; }
@@ -55,7 +55,7 @@
 
 /* A continuous, low-contrast constellation carries the visitor between each chapter. */
 .home-page #main { position: relative; isolation: isolate; overflow: clip; background: radial-gradient(ellipse 85% 36% at 50% 18%, #263d4a55, transparent 70%), #0c1821; }
-.home-story-sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: .72; transition: opacity .7s ease; }
+.home-story-sky { position: absolute; inset: 0 0 auto; height: 100svh; z-index: 0; pointer-events: none; overflow: hidden; opacity: .72; transition: opacity .7s ease; }
 .home-page #main > :not(.home-story-sky) { position: relative; z-index: 1; }
 .home-page #about, .home-page #gallery, .home-page #projects, .home-page #work { background-color: transparent; }
 .home-story-spark, .home-story-comet { position: absolute; display: block; background-image: url("../assets/home-stars/glow-stars-and-comets-v2.png"); background-repeat: no-repeat; mix-blend-mode: screen; filter: saturate(.28) brightness(1.05) contrast(.84) drop-shadow(0 0 10px #efe5d342); will-change: transform, opacity; }
@@ -66,3 +66,22 @@
 .home-story-sky[data-chapter="1"] { opacity: .82; }.home-story-sky[data-chapter="2"] { opacity: .55; }.home-story-sky[data-chapter="3"] { opacity: .68; }.home-story-sky[data-chapter="4"] { opacity: .48; }
 @media (max-width: 700px) { .home-story-spark--one { left: 3%; }.home-story-spark--two { right: 3%; }.home-story-comet { width: 38vw; } }
 @media (prefers-reduced-motion: reduce) { .home-story-sky { opacity: .35; }.home-story-spark--one { left: 9%; top: 25%; }.home-story-spark--two { right: 8%; top: 49%; }.home-story-spark--three { right: 12%; bottom: 18%; }.home-story-comet { right: 3%; top: 62%; opacity: .25; } }
+
+/* Pixel astronaut and banner share the scroll journey. */
+.star-stage .orbit-astronaut { aspect-ratio: 1; }
+.orbit-astronaut__frame { image-rendering: auto; }
+.orbit-astronaut__blink { z-index: 6; }
+@media (prefers-reduced-motion: reduce) {
+  .orbit-astronaut__blink { display: none; }
+}
+
+/* The banner fades away as the astronaut reaches About. */
+.orbit-hero .mind-name, .orbit-hero .mind-role, .star-stage .space-layer,
+.star-stage .orbit-lines, .star-stage .orbit-icon { opacity: var(--banner-opacity, 1); }
+.home-space-scene .orbit-hero::before { opacity: calc(.46 * var(--banner-opacity, 1)); }
+.orbit-hero.banner-gone .orbit-icon { pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .orbit-hero .mind-name, .orbit-hero .mind-role, .star-stage .space-layer,
+  .star-stage .orbit-lines, .star-stage .orbit-icon { opacity: 1; }
+  .home-space-scene .orbit-hero::before { opacity: .46; }
+}

@@ -1,86 +1,72 @@
 (() => {
-  // TODO: The homepage character sequence is still in progress; refine or replace the action frames before final delivery.
+  'use strict';
   const astronaut = document.querySelector('[data-scroll-walk]');
+  const hero = document.querySelector('.orbit-hero');
   const stage = document.querySelector('.star-stage');
+  const scene = document.querySelector('.home-space-scene');
   const about = document.querySelector('#about');
   const frames = [...document.querySelectorAll('[data-walk-frame]')];
-  const pupils = [...document.querySelectorAll('.orbit-astronaut__pupil')];
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const blink = document.querySelector('[data-blink-frame]');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  if (!astronaut || !hero || !stage || !scene || !about || frames.length !== 15) return;
 
-  if (!astronaut || !stage || !about || frames.length < 2) return;
-
-  let requestId = 0;
-  let motionId = 0;
-  let progress = 0;
-  let targetX = 0;
-  let targetY = 0;
-  let currentX = 0;
-  let currentY = 0;
-  const clamp = (value) => Math.max(0, Math.min(1, value));
-
-  const render = () => {
-    requestId = 0;
-    if (reducedMotion.matches) return;
-
-    const stageBounds = stage.getBoundingClientRect();
-    const aboutBounds = about.getBoundingClientRect();
-    const stageTop = stageBounds.top + window.scrollY;
-    const aboutTop = aboutBounds.top + window.scrollY;
-    const start = Math.max(0, stageTop + stageBounds.height * .16 - window.innerHeight * .62);
-    const end = Math.max(start + 1, aboutTop - window.innerHeight * .3);
-    progress = clamp((window.scrollY - start) / (end - start));
-    const framePosition = progress * (frames.length - 1);
-
-    frames.forEach((image, index) => {
-      image.style.opacity = String(Math.max(0, 1 - Math.abs(framePosition - index)));
-    });
-    astronaut.style.setProperty('--gaze-opacity', frames[0].style.opacity);
-
-    const landingProgress = clamp(progress / .58);
-    const walkingProgress = clamp((progress - .58) / .42);
-    const walkY = stageBounds.height * (.12 * landingProgress + .05 * walkingProgress);
-    astronaut.style.setProperty('--walk-y', `${walkY}px`);
-    astronaut.style.setProperty('--walk-scale', String(1 - progress * .09));
-  };
-
-  const animateFloat = (time) => {
-    if (reducedMotion.matches) {
-      astronaut.style.setProperty('--float-y', '0px');
-      motionId = 0;
+  const clamp = n => Math.max(0, Math.min(1, n));
+  let request = 0, motion = 0, selected = 0, landing = 0, walking = 0;
+  function render() {
+    request = 0;
+    if (reduced.matches) {
+      frames.forEach((image, i) => { image.style.opacity = i === 0 ? '1' : '0'; });
+      astronaut.style.setProperty('--walk-y', '0px');
+      astronaut.style.setProperty('--walk-x', '0px');
+      astronaut.style.setProperty('--walk-scale', '1');
+      hero.style.setProperty('--banner-opacity', '1');
+      hero.classList.remove('banner-gone');
+      if (blink) blink.style.opacity = '0';
       return;
     }
-    const floatStrength = Math.max(0, 1 - progress * 4.6);
-    const floatY = Math.sin(time / 780) * 9 * floatStrength;
-    const bounds = astronaut.getBoundingClientRect();
-    currentX += (targetX - currentX) * .14;
-    currentY += (targetY - currentY) * .14;
-    const pupilX = `${currentX * bounds.width * .009}px`;
-    const pupilY = `${currentY * bounds.height * .0035}px`;
-    pupils.forEach((pupil) => {
-      pupil.style.setProperty('--pupil-x', pupilX);
-      pupil.style.setProperty('--pupil-y', pupilY);
-    });
-    astronaut.style.setProperty('--float-y', `${floatY}px`);
-    motionId = requestAnimationFrame(animateFloat);
-  };
+    const stageTop = stage.getBoundingClientRect().top + scrollY;
+    const aboutTop = about.getBoundingClientRect().top + scrollY;
+    const start = Math.max(0, stageTop - innerHeight * .58);
+    const landingEnd = Math.max(start + innerHeight * .5, aboutTop - innerHeight * .24);
+    const walkingEnd = landingEnd + Math.min(innerHeight * .7, about.offsetHeight * .6);
+    landing = clamp((scrollY - start) / (landingEnd - start));
+    walking = clamp((scrollY - landingEnd) / Math.max(1, walkingEnd - landingEnd));
+    // Landing frame seven reaches About; the remaining standing, turn and walk frames follow.
+    selected = walking > 0 ? 6 + Math.round(walking * 8) : Math.round(landing * 6);
+    frames.forEach((image, i) => { image.style.opacity = i === selected ? '1' : '0'; });
 
-  const scheduleRender = () => {
-    if (!requestId) requestId = requestAnimationFrame(render);
-  };
+    // The banner scrolls away; offset only the astronaut, then move it down.
+    const y = scrollY + landing * Math.min(innerHeight * .3, 220);
+    astronaut.style.setProperty('--walk-y', `${y}px`);
+    astronaut.style.setProperty('--walk-x', `${walking * Math.min(innerWidth * .23, 270)}px`);
+    astronaut.style.setProperty('--walk-scale', String(1 - landing * .12));
+    astronaut.style.opacity = String(1 - clamp((scrollY - walkingEnd) / Math.max(1, innerHeight * .25)));
 
-  document.addEventListener('pointermove', (event) => {
-    const bounds = astronaut.getBoundingClientRect();
-    targetX = Math.max(-1, Math.min(1, (event.clientX - (bounds.left + bounds.width / 2)) / (window.innerWidth * .34)));
-    targetY = Math.max(-1, Math.min(1, (event.clientY - (bounds.top + bounds.height / 2)) / (window.innerHeight * .34)));
-  }, { passive: true });
-
-  addEventListener('scroll', scheduleRender, { passive: true });
-  addEventListener('resize', scheduleRender);
-  reducedMotion.addEventListener('change', () => {
-    scheduleRender();
-    if (!reducedMotion.matches && !motionId) motionId = requestAnimationFrame(animateFloat);
-  });
+    const fade = clamp((landing - .42) / .43);
+    hero.style.setProperty('--banner-opacity', String(1 - fade * fade * (3 - 2 * fade)));
+    hero.classList.toggle('banner-gone', fade >= .99);
+  }
+  function schedule() { if (!request) request = requestAnimationFrame(render); }
+  function animate(time) {
+    if (reduced.matches || document.hidden) { motion = 0; return; }
+    const floating = selected === 0;
+    astronaut.style.setProperty('--float-y', `${floating ? Math.sin(time / 780) * 7 : 0}px`);
+    if (blink) {
+      const phase = time % 6200;
+      blink.style.opacity = floating && ((phase > 2800 && phase < 2940) || (phase > 4550 && phase < 4680)) ? '1' : '0';
+    }
+    motion = requestAnimationFrame(animate);
+  }
+  function syncMotion() {
+    if (motion) cancelAnimationFrame(motion);
+    motion = 0;
+    if (!reduced.matches && !document.hidden) motion = requestAnimationFrame(animate);
+  }
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule);
+  reduced.addEventListener('change', () => { schedule(); syncMotion(); });
+  document.addEventListener('visibilitychange', syncMotion);
+  addEventListener('pagehide', () => cancelAnimationFrame(motion), { once: true });
   render();
-  if (!reducedMotion.matches) motionId = requestAnimationFrame(animateFloat);
-  addEventListener('pagehide', () => cancelAnimationFrame(motionId), { once: true });
+  syncMotion();
 })();
