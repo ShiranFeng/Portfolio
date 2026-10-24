@@ -8,7 +8,8 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const ship = new Image();
   ship.src = 'assets/home-astronaut/flight-ship.png';
-  const duration = 4700;
+  // 1.5× faster than the original 4.7 s flight.
+  const duration = 4700 / 1.5;
   let width = 0, height = 0, ratio = 1, active = false, completed = false, start = null, frame = 0;
 
   function resize() {
@@ -35,7 +36,11 @@
       start = null;
       return;
     }
-    if (start === null) start = time;
+    if (start === null) {
+      start = time;
+      // Keep the Projects copy out of view while this hand-off is in motion.
+      document.dispatchEvent(new Event('projecttransitionstart'));
+    }
     if (time - start >= duration) {
       completed = true;
       context.clearRect(0, 0, width, height);

@@ -17,9 +17,10 @@
   <link rel="stylesheet" href="css/home-gallery.css">
   <link rel="stylesheet" href="css/home-flight.css?v=7">
   <link rel="stylesheet" href="css/home-about.css">
-  <link rel="stylesheet" href="css/home-projects.css?v=project-windows-7">
+  <link rel="stylesheet" href="css/home-projects.css?v=project-windows-10">
+  <link rel="stylesheet" href="css/project-view-transition.css?v=1">
   <script src="js/home-about.js" defer></script>
-  <script src="js/home-projects.js?v=project-windows-7" defer></script>
+  <script src="js/home-projects.js?v=project-windows-8" defer></script>
   <link rel="stylesheet" href="css/home-orbits.css?v=journey-stars-21">
   <script src="js/home-gallery.js" defer></script>
 </head>
@@ -175,9 +176,9 @@
         <div class="project-ship-intro__ship">
           <img class="project-ship-intro__art" src="assets/home-astronaut/flight-ship.png" alt="">
           <nav class="project-ship-intro__windows" aria-label="Featured projects">
-            <a class="project-ship-intro__window" href="projects/powder-report/index.html" aria-label="Open SlopeSide project" tabindex="-1"><img src="projects/powder-report/assets/slopeside-promo.png" alt=""><span class="project-ship-intro__label">SlopeSide</span></a>
-            <a class="project-ship-intro__window" href="projects/baguio/index.html" aria-label="Open Baguio project" tabindex="-1"><img src="projects/baguio/assets/final-poster.png" alt=""><span class="project-ship-intro__label">Baguio</span></a>
-            <a class="project-ship-intro__window" href="projects/pin-it-down/index.html" aria-label="Open Pin It Down project" tabindex="-1"><img src="projects/pin-it-down/assets/final-magnet-mockup.png" alt=""><span class="project-ship-intro__label">Pin It Down</span></a>
+            <a class="project-ship-intro__window" href="projects/powder-report/index.html" aria-label="Open SlopeSide project" tabindex="-1"><img src="projects/powder-report/assets/slopeside-promo.png" alt="" data-project-transition="slopeside"><span class="project-ship-intro__label">SlopeSide</span></a>
+            <a class="project-ship-intro__window" href="projects/baguio/index.html" aria-label="Open Baguio project" tabindex="-1"><img src="projects/baguio/assets/final-poster.png" alt="" data-project-transition="baguio"><span class="project-ship-intro__label">Baguio</span></a>
+            <a class="project-ship-intro__window" href="projects/pin-it-down/index.html" aria-label="Open Pin It Down project" tabindex="-1"><img src="projects/pin-it-down/assets/final-magnet-mockup.png" alt="" data-project-transition="pin-it-down"><span class="project-ship-intro__label">Pin It Down</span></a>
           </nav>
         </div>
       </div>
@@ -294,7 +295,7 @@
   <script src="js/vendor/bootstrap.bundle.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/home-orbits.js?v=journey-stars-25"></script>
-  <script src="js/home-flight.js?v=9"></script>
+  <script src="js/home-flight.js?v=10"></script>
   <script type="module" src="js/journey-hover.js?v=1"></script>
   <script src="js/home-sections.js"></script>
 </body>

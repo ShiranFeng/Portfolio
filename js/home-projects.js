@@ -13,6 +13,7 @@
   let transitionDone = false;
   let sectionVisible = false;
   let started = false;
+  let prepared = false;
 
   function setShipLinksActive(active) {
     shipLinks.forEach(link => { link.tabIndex = active ? 0 : -1; });
@@ -30,16 +31,21 @@
     if (started || !transitionDone || !sectionVisible || reduced.matches) return;
     started = true;
     section.classList.add('is-project-heading');
-    // Let the heading settle before the ship takes the cards' place.
-    setTimeout(() => section.classList.add('is-project-ship'), 900);
+    // The Project title lands first; the ship returns only after the copy is readable.
+    setTimeout(() => section.classList.add('is-project-ship'), 1050);
   }
-  function armProjectSequence() {
-    transitionDone = true;
-    if (reduced.matches) return;
+  function prepareProjectSequence() {
+    if (prepared || reduced.matches) return;
+    prepared = true;
     section.classList.add('is-project-armed');
     grid.inert = true;
     if (allProjects) allProjects.inert = true;
     setShipLinksActive(false);
+  }
+  function armProjectSequence() {
+    transitionDone = true;
+    if (reduced.matches) return;
+    prepareProjectSequence();
     startProjectSequence();
   }
 
@@ -49,6 +55,7 @@
       startProjectSequence();
     }, { threshold: .2 });
     observer.observe(section);
+    document.addEventListener('projecttransitionstart', prepareProjectSequence, { once: true });
     document.addEventListener('projecttransitioncomplete', armProjectSequence, { once: true });
     shipScene.addEventListener('animationend', event => {
       if (event.target !== shipScene.querySelector('.project-ship-intro__ship') || event.animationName !== 'project-ship-in') return;
@@ -57,6 +64,7 @@
     reduced.addEventListener('change', () => {
       if (!reduced.matches) return;
       observer.disconnect();
+      prepared = false;
       section.classList.remove('is-project-armed', 'is-project-heading', 'is-project-ship', 'is-project-settled');
       setShipLinksActive(false);
       releaseProjects();
