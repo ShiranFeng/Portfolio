@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shiranfeng.github.io/Protfolio/sitemap.xml
+Sitemap: https://shiranfeng.github.io/Portfolio/sitemap.xml
