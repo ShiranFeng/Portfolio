@@ -74,7 +74,7 @@
 @media(max-width:700px) { .orbit-hero.mind-hero { min-height: 0; padding-block: 2rem 3rem; } .orbit-hero .mind-name { font-size: clamp(6.24rem, 31.2vw, 11.05rem); line-height: .88; } .orbit-stage { margin-top: -5.5rem; margin-bottom: 1rem; } .orbit-hero .mind-role { width: auto; font-size: .6rem; } }
 
 /* A continuous, low-contrast constellation carries the visitor between each chapter. */
-.home-page #main { position: relative; isolation: isolate; overflow: clip; background: radial-gradient(ellipse 85% 36% at 50% 18%, #263d4a55, transparent 70%), #0c1821; }
+.home-page #main { position: relative; isolation: isolate; overflow: clip; background: #0c1821; }
 .home-story-sky { position: absolute; inset: 0 0 auto; height: 100svh; z-index: 0; pointer-events: none; overflow: hidden; opacity: .72; transition: opacity .7s ease; }
 .home-page #main > :not(.home-story-sky) { position: relative; z-index: 1; }
 .home-page #about, .home-page #gallery, .home-page #projects, .home-page #work { background-color: transparent; }

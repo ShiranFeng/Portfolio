@@ -1,11 +1,13 @@
 (() => {
   'use strict';
   const section = document.querySelector('#projects.home-projects');
+  const inner = section?.querySelector('.home-projects__inner');
   const grid = section?.querySelector('.home-projects__grid');
   const intro = section?.querySelector('.home-projects__intro');
   const allProjects = section?.querySelector('.home-projects__all');
   const shipScene = section?.querySelector('.project-ship-intro');
-  if (!section || !grid || !intro || !shipScene) return;
+  const ship = shipScene?.querySelector('.project-ship-intro__ship');
+  if (!section || !inner || !grid || !intro || !shipScene || !ship) return;
 
   const cards = [...grid.querySelectorAll('.project-glass-card')];
   const shipLinks = [...shipScene.querySelectorAll('.project-ship-intro__window')];
@@ -14,30 +16,46 @@
   let sectionVisible = false;
   let started = false;
   let prepared = false;
+  let shipStartTimer = 0;
+  let shipFallbackTimer = 0;
+  let completionSent = false;
 
   function setShipLinksActive(active) {
     shipLinks.forEach(link => { link.tabIndex = active ? 0 : -1; });
     shipScene.setAttribute('aria-hidden', active ? 'false' : 'true');
   }
-  function releaseProjects() {
-    grid.inert = false;
-    if (allProjects) allProjects.inert = false;
+  function announceContentComplete() {
+    if (completionSent) return;
+    completionSent = true;
+    clearTimeout(shipStartTimer);
+    clearTimeout(shipFallbackTimer);
+    document.dispatchEvent(new Event('projectcontentcomplete'));
   }
   function settleProjectShip() {
+    if (!section.classList.contains('is-project-ship')) return;
     section.classList.add('is-project-settled');
     setShipLinksActive(true);
+    announceContentComplete();
   }
   function startProjectSequence() {
     if (started || !transitionDone || !sectionVisible || reduced.matches) return;
     started = true;
+    document.body.classList.add('is-project-view-active');
     section.classList.add('is-project-heading');
-    // The Project title lands first; the ship returns only after the copy is readable.
-    setTimeout(() => section.classList.add('is-project-ship'), 1050);
+    intro.inert = false;
+    // Let the title resolve before the same-sized ship flies in from the left.
+    shipStartTimer = setTimeout(() => {
+      if (reduced.matches) return announceContentComplete();
+      section.classList.add('is-project-ship');
+      shipFallbackTimer = setTimeout(settleProjectShip, 5000);
+    }, 1050);
   }
   function prepareProjectSequence() {
     if (prepared || reduced.matches) return;
     prepared = true;
+    completionSent = false;
     section.classList.add('is-project-armed');
+    intro.inert = true;
     grid.inert = true;
     if (allProjects) allProjects.inert = true;
     setShipLinksActive(false);
@@ -49,7 +67,7 @@
     startProjectSequence();
   }
 
-  if (!reduced.matches && 'IntersectionObserver' in window) {
+  if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
       sectionVisible = entries[0].isIntersecting;
       startProjectSequence();
@@ -57,22 +75,25 @@
     observer.observe(section);
     document.addEventListener('projecttransitionstart', prepareProjectSequence, { once: true });
     document.addEventListener('projecttransitioncomplete', armProjectSequence, { once: true });
-    shipScene.addEventListener('animationend', event => {
-      if (event.target !== shipScene.querySelector('.project-ship-intro__ship') || event.animationName !== 'project-ship-in') return;
-      settleProjectShip();
+    ship.addEventListener('animationend', event => {
+      if (event.animationName === 'project-ship-in') settleProjectShip();
     });
     reduced.addEventListener('change', () => {
       if (!reduced.matches) return;
       observer.disconnect();
-      prepared = false;
+      clearTimeout(shipStartTimer);
+      clearTimeout(shipFallbackTimer);
+      document.body.classList.remove('is-project-view-active');
       section.classList.remove('is-project-armed', 'is-project-heading', 'is-project-ship', 'is-project-settled');
+      intro.inert = false;
+      grid.inert = false;
+      if (allProjects) allProjects.inert = false;
       setShipLinksActive(false);
-      releaseProjects();
+      announceContentComplete();
     });
   }
 
-  // The spotlight is calculated in every card's own coordinates, so it stays
-  // directly under the pointer and naturally lights nearby borders.
+  // The spotlight stays directly under the pointer within each glass card.
   function lightAt(x, y) {
     cards.forEach(card => {
       const rect = card.getBoundingClientRect();
