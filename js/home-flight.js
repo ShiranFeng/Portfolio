@@ -7,9 +7,9 @@
   if (!context) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const ship = new Image();
-  ship.src = 'assets/home-astronaut/flight-ship.webp';
+  ship.src = 'assets/home-astronaut/flight-ship.png';
   const duration = 4700;
-  let width = 0, height = 0, ratio = 1, active = false, start = null, frame = 0;
+  let width = 0, height = 0, ratio = 1, active = false, completed = false, start = null, frame = 0;
 
   function resize() {
     const rect = stage.getBoundingClientRect();
@@ -25,8 +25,8 @@
     const progress = (theta + Math.PI) / (2 * Math.PI);
     const padding = shipWidth() / 2 + 20;
     const x = width + padding - (width + 2 * padding) * progress;
-    const y = height * (.29 + .28 * (2 * progress - progress * progress));
-    return { x, y, dx: -(width + 2 * padding), dy: height * .56 * (1 - progress) };
+    const y = height * (.34 + .34 * (2 * progress - progress * progress));
+    return { x, y, dx: -(width + 2 * padding), dy: height * .68 * (1 - progress) };
   }
   function draw(time) {
     frame = 0;
@@ -36,7 +36,15 @@
       return;
     }
     if (start === null) start = time;
-    const phase = ((time - start) % duration) / duration;
+    if (time - start >= duration) {
+      completed = true;
+      context.clearRect(0, 0, width, height);
+      // Close the empty flight area once the ship has flown away.
+      stage.classList.add('is-complete');
+      document.dispatchEvent(new Event('projecttransitioncomplete'));
+      return;
+    }
+    const phase = (time - start) / duration;
     // Ease gently into a noticeably slower middle, then accelerate away.
     const progress = phase + .88 * Math.sin(phase * 2 * Math.PI) / (2 * Math.PI);
     const theta = -Math.PI + progress * 2 * Math.PI;
@@ -78,14 +86,26 @@
     if (frame) cancelAnimationFrame(frame);
     frame = 0; start = null;
     context.clearRect(0, 0, width, height);
-    if (active && !reduced.matches && !document.hidden && document.documentElement.dataset.journeyFinished === 'true') frame = requestAnimationFrame(draw);
+    if (active && !completed && !reduced.matches && !document.hidden && document.documentElement.dataset.journeyFinished === 'true') frame = requestAnimationFrame(draw);
   }
   resize();
   const observer = new IntersectionObserver(entries => {
-    active = entries[0].isIntersecting;
+    const visible = entries[0].isIntersecting && entries[0].intersectionRatio >= .55;
+    if (!visible && !stage.classList.contains('is-complete')) completed = false;
+    active = visible;
     sync();
-  }, { threshold: .1 });
+  }, { threshold: .55 });
   observer.observe(stage);
+  let lastScroll = scrollY;
+  addEventListener('scroll', () => {
+    // Restore the flight only after the visitor has scrolled back above it.
+    if (scrollY < lastScroll && completed && stage.getBoundingClientRect().top >= innerHeight) {
+      stage.classList.remove('is-complete');
+      completed = false;
+      resize();
+    }
+    lastScroll = scrollY;
+  }, { passive: true });
   addEventListener('resize', () => { resize(); sync(); }, { passive: true });
   document.addEventListener('journeyfinished', sync);
   document.addEventListener('visibilitychange', sync);

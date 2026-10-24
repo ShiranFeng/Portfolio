@@ -6,14 +6,16 @@
   max-width: none;
   margin-top: 50px;
   height: min(70svh, 680px);
+  transition: height .45s ease;
   pointer-events: none;
   overflow: hidden;
 }
+.home-page #main > .home-flight.is-complete { height: 0; }
 .home-flight canvas { display: block; width: 100%; height: 100%; }
-.home-page #main > .scroll-cue {
-  position: fixed !important;
+.home-page body > .scroll-cue {
+  position: fixed;
   z-index: 30;
-  left: 50%; bottom: clamp(6rem, 20svh, 12rem);
+  left: 50%; bottom: max(1rem, 3.6svh);
   transform: translateX(-50%);
   color: #fcf9f3;
   opacity: 0;
@@ -21,7 +23,7 @@
   pointer-events: none;
   transition: opacity .25s ease, visibility .25s;
 }
-.home-page #main > .scroll-cue.is-visible { opacity: 1; visibility: visible; }
+.home-page body > .scroll-cue.is-visible { opacity: 1; visibility: visible; }
 .scroll-cue__label { display: block; text-align: center; font: 11px/1.2 Archivo, sans-serif; letter-spacing: 3px; margin-bottom: 11px; }
 .scroll-cue__row { display: flex; align-items: flex-start; gap: 40px; justify-content: center; }
 .scroll-cue__mouse { width: 24px; height: 38px; box-sizing: border-box; border: 2.2px solid currentColor; border-radius: 12px; position: relative; }

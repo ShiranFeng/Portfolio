@@ -3,7 +3,7 @@
 .orbit-hero .mind-role { position: relative; top: auto; right: auto; text-align: center; margin: .5rem 1rem 0; font-size: .75rem; }
 .orbit-hero .mind-scene { display: none; }
 .orbit-stage { position: relative; z-index: 2; isolation: isolate; width: min(100%, 1050px); aspect-ratio: 1000 / 650; margin-top: -1rem; }
-.orbit-astronaut { --walk-y: 0px; --float-y: 0px; --walk-scale: 1; position: absolute; left: 50%; top: 4%; width: 47%; aspect-ratio: 1149 / 1369; transform: translate(calc(-50% + var(--walk-x, 0px)), calc(var(--walk-y) + var(--float-y))) scale(var(--walk-scale)); transform-origin: 50% 20%; z-index: 3; pointer-events: none; }
+.orbit-astronaut { --walk-y: 0px; --float-y: 0px; --walk-scale: 1; position: absolute; left: 50%; top: 4%; width: 47%; aspect-ratio: 1149 / 1369; transform: translate(calc(-50% + var(--walk-x, 0px)), calc(var(--walk-y) + var(--float-y) + var(--walk-clearance, 0px))) scale(var(--walk-scale)); transform-origin: 50% 20%; z-index: 3; pointer-events: none; }
 .orbit-astronaut__frame { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; will-change: opacity; }
 .orbit-astronaut__gaze { position: absolute; inset: 0; z-index: 5; opacity: var(--gaze-opacity, 1); pointer-events: none; }
 .orbit-astronaut__eye { position: absolute; width: 7.1%; aspect-ratio: 1.58; overflow: hidden; border-radius: 50%; clip-path: ellipse(48% 47% at 50% 50%); isolation: isolate; }
@@ -42,7 +42,7 @@
 .star-stage { width: 100%; aspect-ratio: 1440 / 780; min-height: min(78vw, 819px); margin-top: clamp(-12rem, -11vw, -10rem); }
 .orbit-system { position: absolute; left: 50%; top: calc(clamp(2rem, 5vw, 4.5rem) + 70px); z-index: 10; width: min(100%, 1050px); aspect-ratio: 1000 / 650; transform: translateX(-50%); isolation: isolate; }
 .star-stage .orbit-astronaut { width: 47%; top: 4%; }
-.about-mask { --intro-y: 0px; --mask-top: 120px; --mask-bottom: -100%; --mask-line: 0; position: absolute; z-index: 5; left: 50%; top: 4%; width: min(92vw, 36rem); color: var(--brand-on-dark, #fff); transform: translate(-50%, calc(var(--intro-y) - 100% - 1rem)); text-align: center; pointer-events: none; }
+.about-mask { --intro-y: 0px; --mask-top: 120px; --mask-bottom: -100%; --mask-line: 0; position: absolute; z-index: 5; left: 50%; top: 4%; width: min(92vw, 36rem); color: var(--brand-on-dark, #fff); transform: translate(-50%, calc(var(--intro-y) + var(--scene-offset, 0px) + var(--composition-offset, 0px) - 100% - 1rem)); text-align: center; pointer-events: none; }
 .about-mask__top { height: clamp(72px, 8vw, 96px); overflow: hidden; display: flex; justify-content: center; align-items: end; }
 .about-mask__top h2 { margin: 0; color: inherit; font-family: 'Jersey 25', sans-serif; font-size: clamp(2.6rem, 5vw, 4.75rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; transform: translateY(var(--mask-top)); }
 .about-mask__line { width: min(380px, 78vw); height: 6px; margin: 5px auto 24px; background: currentColor; transform: scaleX(var(--mask-line)); }
@@ -146,7 +146,7 @@
 }
 
 /* A single open constellation trail, carried behind the walking astronaut. */
-.journey-strip { --intro-y: 0px; --journey-x: 75vw; --journey-visible: 0; position: absolute; z-index: 2; left: 50%; top: calc(4% + min(20vw, 210px)); width: 100vw; height: clamp(185px, 23vw, 245px); transform: translate(-50%, var(--intro-y)); clip-path: inset(-120px var(--journey-clip, 42%) -120px 0); opacity: var(--journey-visible); pointer-events: none; }
+.journey-strip { --intro-y: 0px; --journey-x: 75vw; --journey-visible: 0; position: absolute; z-index: 2; left: 50%; top: calc(4% + min(20vw, 210px)); width: 100vw; height: clamp(185px, 23vw, 245px); transform: translate(-50%, calc(var(--intro-y) + var(--scene-offset, 0px) + var(--composition-offset, 0px))); clip-path: inset(-120px var(--journey-clip, 42%) -120px 0); opacity: var(--journey-visible); pointer-events: none; }
 .journey-strip__map { position: absolute; top: 0; left: 9vw; width: 80vw; height: 200px; transform: translateX(var(--journey-x)); }
 .journey-strip__route { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .journey-strip__route path { fill: none; stroke: #f1e7d2; stroke-width: 1.35; stroke-opacity: .7; vector-effect: non-scaling-stroke; }

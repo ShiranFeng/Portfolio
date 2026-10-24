@@ -29,13 +29,29 @@
   }
   let request = 0, motion = 0, selected = 0, landing = 0, landedAt = null;
   let pausedAt = null;
-  let finishedOnce = false, held = false, holdY = 0, cueAt = null, flightGap = 50;
+  let finishedOnce = false, held = false, holdY = 0, cueAt = null, flightGap = 50, compositionOffset = 0;
+  function balanceComposition() {
+    if (!aboutMask || !journeyStrip) return;
+    // Measure the whole visible group, including the labels outside the strip.
+    aboutMask.style.setProperty('--composition-offset', '0px');
+    journeyStrip.style.setProperty('--composition-offset', '0px');
+    const boxes = [aboutMask, journeyStrip, ...journeyStrip.querySelectorAll('.journey-star__copy')].map(el => el.getBoundingClientRect());
+    const top = Math.min(...boxes.map(box => box.top));
+    const bottom = Math.max(...boxes.map(box => box.bottom));
+    const availableTop = 32, availableBottom = innerHeight - Math.max(150, innerHeight * .15);
+    const desired = (availableTop + availableBottom - top - bottom) / 2;
+    compositionOffset = bottom - top <= availableBottom - availableTop
+      ? Math.max(availableTop - top, Math.min(availableBottom - bottom, desired))
+      : desired;
+  }
   function updateFlightGap() {
     if (!flightStage || !journeyStrip) return;
     const labels = [...journeyStrip.querySelectorAll('.journey-star__copy')];
     const bottom = Math.max(journeyStrip.getBoundingClientRect().bottom, ...labels.map(label => label.getBoundingClientRect().bottom));
     const baseTop = flightStage.getBoundingClientRect().top - flightGap;
-    const needed = Math.max(50, Math.ceil(bottom + 50 - baseTop));
+    // Pull the next scene up to the actual timeline rather than the bottom
+    // of its taller container, while keeping 50px between the two.
+    const needed = Math.ceil(bottom + 50 - baseTop);
     if (needed !== flightGap) { flightGap = needed; flightStage.style.marginTop = `${flightGap}px`; }
   }
   const pauseReasons = new Set();
@@ -62,6 +78,7 @@
     if (reduced.matches) {
       frames.forEach((image, i) => { image.style.opacity = i === 0 ? '1' : '0'; });
       astronaut.style.setProperty('--walk-y', '0px');
+      astronaut.style.setProperty('--walk-clearance', '0px');
       astronaut.style.setProperty('--walk-x', '0px');
       astronaut.style.setProperty('--walk-scale', '1');
       hero.style.setProperty('--banner-opacity', '1');
@@ -79,7 +96,10 @@
     holdY = landingEnd;
     held = !finishedOnce && scrollY >= holdY - 1;
     if (held && scrollY > holdY) window.scrollTo({ top: holdY, behavior: 'instant' });
-    const position = held ? Math.min(scrollY, holdY) : scrollY;
+    // Browsers can round the locked scroll position to a nearby pixel. Treat
+    // the hold as the exact landing point so walking always starts, even if
+    // the reported scroll position is a fraction below the threshold.
+    const position = held || (finishedOnce && Math.abs(scrollY - holdY) < 1) ? holdY : scrollY;
     landing = clamp((position - start) / (landingEnd - start));
     if (cueAt !== null && Math.abs(scrollY - cueAt) > 50) {
       scrollCue?.classList.remove('is-visible');
@@ -108,15 +128,36 @@
     const y = Math.max(0, Math.min(position - start, holdEnd - start))
       + releaseOffset + baseCenter - scaledCenter;
     astronaut.style.setProperty('--walk-y', `${y}px`);
-    if (aboutMask) aboutMask.style.setProperty('--intro-y', `${y}px`);
-    if (journeyStrip) journeyStrip.style.setProperty('--intro-y', `${y}px`);
+    if (aboutMask) {
+      aboutMask.style.setProperty('--intro-y', `${y}px`);
+      aboutMask.style.setProperty('--scene-offset', `${landing * Math.min(innerHeight * .13, 160)}px`);
+    }
+    if (journeyStrip) {
+      journeyStrip.style.setProperty('--intro-y', `${y}px`);
+      journeyStrip.style.setProperty('--scene-offset', `${-landing * Math.min(innerHeight * .04, 50)}px`);
+    }
+    if (held) balanceComposition();
+    if (aboutMask) aboutMask.style.setProperty('--composition-offset', `${compositionOffset * landing}px`);
+    if (journeyStrip) journeyStrip.style.setProperty('--composition-offset', `${compositionOffset * landing}px`);
     astronaut.style.setProperty('--walk-scale', String(scale));
+    astronaut.style.setProperty('--walk-clearance', '0px');
+    if (landing >= 1 && aboutMask) {
+      // Keep the whole figure below the introduction throughout the walk.
+      // Shrink it only when the viewport is too short for that spacing.
+      const textBottom = aboutMask.getBoundingClientRect().bottom;
+      const desiredTop = textBottom + 24;
+      const availableHeight = Math.max(0, innerHeight - 24 - desiredTop);
+      const fitScale = Math.min(scale, Math.max(.15, availableHeight / astronaut.offsetHeight));
+      astronaut.style.setProperty('--walk-scale', String(fitScale));
+      const characterTop = astronaut.getBoundingClientRect().top;
+      astronaut.style.setProperty('--walk-clearance', `${Math.max(0, desiredTop - characterTop)}px`);
+    }
     astronaut.style.opacity = '1';
 
     const fade = clamp((landing - .35) / .6);
     hero.style.setProperty('--banner-opacity', String(1 - fade * fade * (3 - 2 * fade)));
     hero.classList.toggle('banner-gone', fade >= .99);
-    updateFlightGap();
+    if (landing >= 1) updateFlightGap();
   }
   function schedule() { if (!request) request = requestAnimationFrame(render); }
   function animate(time) {

@@ -30,3 +30,139 @@
 .home-projects__all:hover, .home-projects__all:focus-visible { color: #fff; text-decoration: underline; text-underline-offset: .3rem; }
 @media (max-width: 760px) { #projects.home-projects { min-height: auto; } .home-projects__star { display: none; } .home-projects__grid { grid-template-columns: 1fr; } .project-glass-card { max-width: 35rem; margin-inline: auto; } }
 @media (prefers-reduced-motion: reduce) { .project-glass-card, .project-glass-card > img, .project-glass-card__arrow { transition: none; transform: none; } }
+
+/* The ship becomes the final Projects view: its three windows are the project links. */
+.project-ship-intro {
+  display: none;
+  position: absolute;
+  top: clamp(19rem, 48svh, 32rem);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+  background: #0c1821;
+}
+/* Override the shared 42rem content column: this scene must use the full viewport. */
+#projects.home-projects > .project-ship-intro {
+  width: auto;
+  max-width: none;
+}
+.project-ship-intro__ship {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(100vw, 1050px);
+  aspect-ratio: 1774 / 887;
+  --project-zoom: 3.25;
+  transform-origin: 41.5% 50%;
+  transform: translate(calc(-41.5% - 110vw), -50%) scale(.72);
+}
+.project-ship-intro__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scaleX(-1);
+  image-rendering: pixelated;
+}
+.project-ship-intro__windows {
+  position: absolute;
+  left: 26.1%;
+  top: 42%;
+  width: 30.8%;
+  height: 23%;
+  display: flex;
+  gap: 3%;
+  align-items: center;
+  margin: 0;
+  padding: 1.2%;
+  box-sizing: border-box;
+  background: #f3e6d2;
+}
+.project-ship-intro__window {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  flex: 1;
+  height: 88%;
+  min-width: 0;
+  overflow: hidden;
+  border: clamp(2px, .55vw, 6px) solid #17345d;
+  outline: 2px solid #c4b7a8;
+  border-radius: 10%;
+  background: #12355e;
+  box-shadow: inset 0 0 0 2px #6795b7, 0 2px 0 #a79d8c;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+.project-ship-intro__window > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+}
+.project-ship-intro__label {
+  position: relative;
+  z-index: 2;
+  display: block;
+  padding: 5% 1% 4%;
+  background: #12355e;
+  color: #f8f2e6;
+  font-size: clamp(3px, .31vw, 5px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .015em;
+  white-space: nowrap;
+}
+.project-ship-intro__window::after {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(125deg, #fff8, transparent 28% 58%, #dcf3ff55 76%, transparent 83%);
+}
+.project-ship-intro__window:hover,
+.project-ship-intro__window:focus-visible {
+  z-index: 4;
+  outline-color: #fff4ce;
+  box-shadow: inset 0 0 0 2px #bce7ff, 0 0 0 1px #fff6d3, 0 2px 0 #a79d8c, 0 0 12px #e9f8ff99;
+  filter: brightness(1.08) saturate(1.08);
+  transform: translateY(-1px) rotate(-.15deg);
+}
+.project-ship-intro__window:focus-visible { outline-width: 3px; }
+
+.home-projects.is-project-armed .home-projects__grid,
+.home-projects.is-project-armed .home-projects__all { opacity: 0; }
+.home-projects.is-project-heading .home-projects__intro { animation: project-copy-in .8s cubic-bezier(.16, 1, .3, 1) both; }
+.home-projects.is-project-ship .project-ship-intro { display: block; overflow: visible; }
+.home-projects.is-project-ship .project-ship-intro__ship { animation: project-ship-in 4.7s both; }
+.home-projects.is-project-settled .project-ship-intro { pointer-events: auto; }
+@keyframes project-ship-in {
+  0% { transform: translate(calc(-41.5% - 110vw), -50%) scale(.72); }
+  44%, 57% { transform: translate(-41.5%, -50%) scale(.72); }
+  92%, 100% { transform: translate(-41.5%, -50%) scale(var(--project-zoom)); }
+}
+@keyframes project-copy-in {
+  from { opacity: 0; transform: translateY(2rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 1200px) {
+  .project-ship-intro__ship { --project-zoom: 2.85; }
+}
+@media (max-width: 760px) {
+  .project-ship-intro { top: 15rem; }
+  .project-ship-intro__ship { width: 100vw; --project-zoom: 2.65; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-ship-intro { display: none !important; }
+  .home-projects.is-project-armed .home-projects__grid,
+  .home-projects.is-project-armed .home-projects__all { opacity: 1; }
+}
