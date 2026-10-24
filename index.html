@@ -10,16 +10,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/home-motion.css">
+  <link rel="stylesheet" href="css/main.css?v=font-restore-14">
+  <link rel="stylesheet" href="css/home-motion.css?v=font-restore-14">
   <link rel="stylesheet" href="css/home-paper.css">
   <script src="js/home-motion.js?v=pinned-1" defer></script>
   <link rel="stylesheet" href="css/home-gallery.css">
+  <link rel="stylesheet" href="css/home-flight.css?v=3">
   <link rel="stylesheet" href="css/home-about.css">
   <link rel="stylesheet" href="css/home-projects.css?v=section-scope-3">
   <script src="js/home-about.js" defer></script>
   <script src="js/home-projects.js" defer></script>
-  <link rel="stylesheet" href="css/home-orbits.css?v=scroll-scene-4">
+  <link rel="stylesheet" href="css/home-orbits.css?v=journey-stars-19">
   <script src="js/home-gallery.js" defer></script>
 </head>
 <body class="motion-home">
@@ -54,6 +55,25 @@
         </div>
         <div class="orbit-system">
         <svg class="orbit-lines orbit-lines--back" viewBox="0 0 1000 650" aria-hidden="true"></svg>
+        <div class="about-mask" data-about-mask aria-hidden="true">
+          <div class="about-mask__top"><h2>I'm Alex</h2></div>
+          <div class="about-mask__line"></div>
+          <div class="about-mask__bottom"><p>Illustration student at OCAD, originally from Weifang. Still figuring out what happens when drawing stops staying still.</p></div>
+        </div>
+        <div class="journey-strip" data-journey-strip inert>
+          <div class="journey-strip__map">
+            <svg class="journey-strip__route" viewBox="0 0 820 200" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M40 70 L163 94 L286 117 L409 100 L532 78 L655 99 L778 119 L860 102" />
+            </svg>
+            <a class="journey-star" href="about.html" style="--x:4.88%;--y:35%" tabindex="-1"><span class="journey-star__glyph" aria-hidden="true"></span><span class="journey-star__copy"><strong>Weifang</strong><span>Where my story starts.</span></span></a>
+            <a class="journey-star journey-star--above" href="about.html" style="--x:19.88%;--y:47%" tabindex="-1"><span class="journey-star__glyph" aria-hidden="true"></span><span class="journey-star__copy"><strong>Toronto</strong><span>A different place to see from.</span></span></a>
+            <span class="journey-star" style="--x:34.88%;--y:58.5%" aria-hidden="true"><span class="journey-star__glyph"></span></span>
+            <a class="journey-star" href="about.html#education-title" style="--x:49.88%;--y:50%" tabindex="-1"><span class="journey-star__glyph" aria-hidden="true"></span><span class="journey-star__copy"><strong>OCAD</strong><span>Learning through illustration.</span></span></a>
+            <span class="journey-star" style="--x:64.88%;--y:39%" aria-hidden="true"><span class="journey-star__glyph"></span></span>
+            <a class="journey-star journey-star--above" href="about.html" style="--x:79.88%;--y:49.5%" tabindex="-1"><span class="journey-star__glyph" aria-hidden="true"></span><span class="journey-star__copy"><strong>Drawing &amp; stories</strong><span>Ideas finding their own shape.</span></span></a>
+            <a class="journey-star" href="about.html#contact-title" style="--x:94.88%;--y:59.5%" tabindex="-1"><span class="journey-star__glyph" aria-hidden="true"></span><span class="journey-star__copy"><strong>What's next?</strong><span>Seeing what drawing can become.</span></span></a>
+          </div>
+        </div>
         <div class="orbit-astronaut" aria-hidden="true" data-scroll-walk>
           <img class="orbit-astronaut__frame" src="assets/home-astronaut/pixel-sequence/01.webp" alt="" data-walk-frame style="opacity: 1">
           <img class="orbit-astronaut__frame" src="assets/home-astronaut/pixel-sequence/02.webp" alt="" data-walk-frame>
@@ -108,25 +128,49 @@
         </div>
       </div>
     </section>
-    <section class="home-intro-section about-journey" id="about" aria-labelledby="about-title">
+    <section class="home-intro-section about-journey" id="about" aria-label="Astronaut landing">
+      <div class="about-scroll" data-about-scroll hidden inert>
+        <div class="about-scroll__sheet">
+          <p class="about-scroll__eyebrow">A little about my journey</p>
+          <h2 id="about-scroll-title">About Us</h2>
+          <p class="about-scroll__intro">I'm Alex — Illustration student at OCAD, originally from Weifang. Still figuring out what happens when drawing stops staying still.</p>
+          <ol class="about-scroll__chapters">
+            <li><strong>Weifang</strong><span>Where my story starts.</span></li>
+            <li><strong>Toronto</strong><span>A different place to see from.</span></li>
+            <li><strong>OCAD</strong><span>Learning through illustration.</span></li>
+            <li><strong>Drawing &amp; stories</strong><span>Ideas finding their own shape.</span></li>
+            <li><strong>What's next?</strong><span>Seeing what drawing can become.</span></li>
+          </ol>
+          <a class="about-scroll__more" href="about.html">Read more <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
       <div class="about-journey__intro">
         <h2 id="about-title">About</h2>
         <p>I'm Alex — Illustration student at OCAD, originally from Weifang. Still figuring out what happens when drawing stops staying still.</p>
       </div>
+      <ol class="journey-accessible" aria-label="Alex’s journey">
+        <li><a href="about.html"><strong>Weifang</strong> — Where my story starts.</a></li>
+        <li><a href="about.html"><strong>Toronto</strong> — A different place to see from.</a></li>
+        <li><a href="about.html#education-title"><strong>OCAD</strong> — Learning through illustration.</a></li>
+        <li><a href="about.html"><strong>Drawing &amp; stories</strong> — Ideas finding their own shape.</a></li>
+        <li><a href="about.html#contact-title"><strong>What's next?</strong> — Seeing what drawing can become.</a></li>
+      </ol>
       <div class="about-journey__map">
         <svg class="about-journey__route" viewBox="0 0 1000 420" aria-hidden="true"><path d="M80 260 C140 300 190 305 270 285 S390 85 480 135 S670 320 730 250 S845 185 910 75"/></svg>
-        <ol class="about-journey__stops">
+        <ol class="about-journey__stops" inert aria-hidden="true">
           <li style="--x:8%;--y:61.9%;--delay:0s"><a href="about.html"><strong>Weifang</strong><span>Where my story starts.</span></a></li>
           <li style="--x:27%;--y:67.9%;--delay:.18s"><a href="about.html"><strong>Toronto</strong><span>A different place to see from.</span></a></li>
           <li style="--x:48%;--y:32.1%;--delay:.36s"><a href="about.html#education-title"><strong>OCAD</strong><span>Learning through illustration.</span></a></li>
           <li style="--x:73%;--y:59.5%;--delay:.54s"><a href="gallery.html"><strong>Drawing & stories</strong><span>Ideas finding their own shape.</span></a></li>
           <li style="--x:91%;--y:17.9%;--delay:.72s"><a href="about.html#contact-title"><strong>What's next?</strong><span>Seeing what drawing can become.</span></a></li>
         </ol>
-        <img class="about-journey__astronaut" src="assets/home-astronaut/about-spaceship.png" width="1391" height="1131" alt="" aria-hidden="true">
+        <img class="about-journey__astronaut" src="assets/home-astronaut/about-spaceship.png" width="1391" height="1131" alt="" aria-hidden="true" hidden>
       </div>
       <div class="about-journey__more"><a class="btn btn-outline-light" href="about.html">Read more ↗</a></div>
     </section>
     </div>
+    <div class="home-flight" data-home-flight aria-hidden="true"><canvas></canvas></div>
+    <div class="scroll-cue" data-scroll-cue aria-hidden="true"><span class="scroll-cue__label">SCROLL</span><div class="scroll-cue__row"><span class="scroll-cue__arrows"><i></i><i></i></span><span class="scroll-cue__mouse"><i></i></span><span class="scroll-cue__arrows"><i></i><i></i></span></div></div>
     <section class="home-intro-section home-gallery" id="gallery" aria-labelledby="gallery-title">
       <div class="home-gallery-copy">
         <h2 id="gallery-title">Gallery</h2>
@@ -239,7 +283,9 @@
   <dialog class="draft-dialog" aria-labelledby="draft-dialog-title" hidden><button class="draft-dialog__close" type="button" aria-label="Close artwork">×</button><img src="" alt=""><h2 id="draft-dialog-title"></h2></dialog>
   <script src="js/vendor/bootstrap.bundle.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/home-orbits.js?v=scroll-scene-4"></script>
+  <script src="js/home-orbits.js?v=journey-stars-21"></script>
+  <script src="js/home-flight.js?v=6"></script>
+  <script type="module" src="js/journey-hover.js?v=1"></script>
   <script src="js/home-sections.js"></script>
 </body>
 </html>

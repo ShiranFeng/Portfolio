@@ -27,11 +27,31 @@
 .home-space-scene .orbit-hero::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: url("../assets/home-stars/starfield-overlay.png") center / cover no-repeat; opacity: .46; filter: saturate(.82) brightness(.86); mix-blend-mode: screen; -webkit-mask-image: radial-gradient(ellipse 64% 55% at 50% 24%, transparent 0 16%, #0003 38%, #000 76%), linear-gradient(to bottom, #000 0 72%, #0008 86%, transparent 100%); -webkit-mask-composite: source-in; mask-image: radial-gradient(ellipse 64% 55% at 50% 24%, transparent 0 16%, #0003 38%, #000 76%), linear-gradient(to bottom, #000 0 72%, #0008 86%, transparent 100%); mask-composite: intersect; }
 .home-space-scene #about { background: transparent; }
 .home-space-scene #about > div { position: relative; z-index: 2; }
+/* Keep the About copy in the markup while the landing scene is being designed. */
+#about.about-journey { position: relative; min-height: 100svh; display: flex; align-items: center; }
+/* The following scene measures its own clearance from the timeline. */
+@media (prefers-reduced-motion: no-preference) {
+  #about.about-journey { min-height: 100svh; }
+}
+#about .about-journey__more,
+#about .about-journey__stops strong, #about .about-journey__stops span,
+#about .about-journey__astronaut, #about .about-journey__route { display: none; }
+#about .about-journey__stops { display: none; }
+#about .about-journey__intro { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#about .about-journey__map { margin: 0 auto; }
 .star-stage { width: 100%; aspect-ratio: 1440 / 780; min-height: min(78vw, 819px); margin-top: clamp(-12rem, -11vw, -10rem); }
 .orbit-system { position: absolute; left: 50%; top: calc(clamp(2rem, 5vw, 4.5rem) + 70px); z-index: 10; width: min(100%, 1050px); aspect-ratio: 1000 / 650; transform: translateX(-50%); isolation: isolate; }
 .star-stage .orbit-astronaut { width: 47%; top: 4%; }
+.about-mask { --intro-y: 0px; --mask-top: 120px; --mask-bottom: -100%; --mask-line: 0; position: absolute; z-index: 5; left: 50%; top: 4%; width: min(92vw, 36rem); color: var(--brand-on-dark, #fff); transform: translate(-50%, calc(var(--intro-y) - 100% - 1rem)); text-align: center; pointer-events: none; }
+.about-mask__top { height: clamp(72px, 8vw, 96px); overflow: hidden; display: flex; justify-content: center; align-items: end; }
+.about-mask__top h2 { margin: 0; color: inherit; font-family: 'Jersey 25', sans-serif; font-size: clamp(2.6rem, 5vw, 4.75rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; transform: translateY(var(--mask-top)); }
+.about-mask__line { width: min(380px, 78vw); height: 6px; margin: 5px auto 24px; background: currentColor; transform: scaleX(var(--mask-line)); }
+.about-mask__bottom { overflow: hidden; }
+.about-mask__bottom p { margin: 0; color: inherit; font-family: var(--bs-body-font-family); font-size: 1rem; line-height: 1.7; transform: translateY(var(--mask-bottom)); }
 @media (prefers-reduced-motion: reduce) {
   .orbit-astronaut__frame:not(:first-child) { display: none; }
+  .about-mask { display: none; }
+  #about .about-journey__intro { position: static; width: auto; height: auto; margin: 0 auto; overflow: visible; clip-path: none; white-space: normal; }
 }
 .space-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
 .space-object { position: absolute; display: block; pointer-events: none; user-select: none; will-change: transform, opacity; background-image: url("../assets/home-stars/glow-stars-and-comets-v2.png"); background-repeat: no-repeat; mix-blend-mode: screen; filter: saturate(.38) sepia(.08) brightness(1.1) contrast(.9) drop-shadow(0 0 8px #e8dcc870); }
@@ -84,4 +104,79 @@
   .orbit-hero .mind-name, .orbit-hero .mind-role, .star-stage .space-layer,
   .star-stage .orbit-lines, .star-stage .orbit-icon { opacity: 1; }
   .home-space-scene .orbit-hero::before { opacity: .46; }
+}
+
+/* A paper scroll opens behind the astronaut as he walks across About. */
+.home-space-scene #about > .about-scroll {
+  --scroll-remaining: 0%; --scroll-opacity: 1;
+  position: absolute; z-index: 3; left: clamp(1.25rem, 4vw, 5rem); top: 50%;
+  width: min(55vw, 740px); max-width: none; transform: translateY(-50%); opacity: var(--scroll-opacity);
+}
+.about-scroll__sheet {
+  position: relative; overflow: hidden; clip-path: inset(0 var(--scroll-remaining) 0 0);
+  padding: clamp(1.35rem, 3vw, 2.75rem) clamp(1.6rem, 3.4vw, 3.1rem);
+  color: #193443; background: linear-gradient(90deg, #e5d6b7 0%, #f6edda 8%, #fff9eb 55%, #ebddc1 100%);
+  border-radius: .25rem; box-shadow: 0 20px 45px #0007, inset 0 0 0 1px #c6ad8470;
+}
+#about .about-scroll::after {
+  content: ''; position: absolute; left: calc(100% - var(--scroll-remaining)); top: -1.3%;
+  width: clamp(.65rem, 1.3vw, 1.1rem); height: 102.6%; transform: translateX(-50%);
+  border-radius: 1rem; background: linear-gradient(90deg, #76593f, #dbc8a2 40%, #947456 76%, #5f4635);
+  box-shadow: 2px 2px 9px #0006; pointer-events: none;
+}
+.about-scroll__sheet .about-scroll__eyebrow { margin: 0 0 .35rem; color: #82725e; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; }
+.about-scroll__sheet h2 { margin: 0 0 .65rem; color: #163747; font-family: 'Jersey 25', sans-serif; font-size: clamp(2.7rem, 4.5vw, 4.2rem); line-height: .95; }
+.about-scroll__sheet .about-scroll__intro { max-width: 36rem; margin: 0; color: #40535a; font-size: clamp(.85rem, 1.08vw, 1rem); line-height: 1.55; }
+.about-scroll__chapters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.15rem 1.4rem; list-style: none; margin: 1.5rem 0 1.3rem; padding: 1.2rem 0 0; border-top: 1px solid #b7a58680; }
+.about-scroll__chapters li { min-width: 0; }
+.about-scroll__chapters strong, .about-scroll__chapters span { display: block; }
+.about-scroll__chapters strong { margin-bottom: .22rem; color: #213e4a; font-size: .88rem; }
+.about-scroll__chapters span { color: #627076; font-size: .76rem; line-height: 1.4; }
+.about-scroll__more { color: #284d5a; font-size: .82rem; font-weight: 700; text-decoration: none; border-bottom: 1px solid #829397; padding-bottom: .2rem; }
+.about-scroll__more:hover, .about-scroll__more:focus-visible { color: #946f44; }
+@media (max-width: 700px) {
+  .home-space-scene #about > .about-scroll { left: 4vw; width: 56vw; }
+  .about-scroll__sheet { padding: 1rem 1.05rem; }
+  .about-scroll__sheet .about-scroll__eyebrow { font-size: .58rem; }
+  .about-scroll__sheet h2 { font-size: clamp(2.1rem, 8vw, 3rem); }
+  .about-scroll__sheet .about-scroll__intro { font-size: .75rem; line-height: 1.4; }
+  .about-scroll__chapters { grid-template-columns: 1fr 1fr; gap: .6rem .7rem; margin: .8rem 0; padding-top: .75rem; }
+  .about-scroll__chapters strong { font-size: .73rem; }
+  .about-scroll__chapters span, .about-scroll__more { font-size: .68rem; }
+}
+
+/* A single open constellation trail, carried behind the walking astronaut. */
+.journey-strip { --intro-y: 0px; --journey-x: 75vw; --journey-visible: 0; position: absolute; z-index: 2; left: 50%; top: calc(4% + min(20vw, 210px)); width: 100vw; height: clamp(185px, 23vw, 245px); transform: translate(-50%, var(--intro-y)); clip-path: inset(-120px var(--journey-clip, 42%) -120px 0); opacity: var(--journey-visible); pointer-events: none; }
+.journey-strip__map { position: absolute; top: 0; left: 9vw; width: 80vw; height: 200px; transform: translateX(var(--journey-x)); }
+.journey-strip__route { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.journey-strip__route path { fill: none; stroke: #f1e7d2; stroke-width: 1.35; stroke-opacity: .7; vector-effect: non-scaling-stroke; }
+.journey-star { display: block; position: absolute; left: var(--x); top: var(--y); width: 24px; height: 24px; transform: translate(-50%, -50%); text-decoration: none; }
+.journey-star[href] { pointer-events: auto; cursor: pointer; }
+.journey-star[href]:focus-visible { outline: 2px solid #fcf9f3; outline-offset: 6px; }
+.journey-star__glyph { display: block; position: absolute; inset: 0; transform-origin: center; }
+.journey-star__glyph::before { content: ''; position: absolute; inset: 0; background: #f6d981; transition: transform .22s ease; transform-origin: center; clip-path: polygon(40% 0,60% 0,60% 20%,70% 20%,70% 30%,100% 30%,100% 50%,80% 50%,80% 60%,90% 60%,90% 90%,70% 90%,70% 80%,60% 80%,60% 70%,40% 70%,40% 80%,30% 80%,30% 90%,10% 90%,10% 60%,20% 60%,20% 50%,0 50%,0 30%,30% 30%,30% 20%,40% 20%); }
+.journey-star__glyph::after { content: ''; position: absolute; left: 37%; top: 25%; width: 25%; height: 25%; background: #fff5bf; transition: transform .22s ease; transform-origin: center; }
+@media (prefers-reduced-motion: no-preference) { .journey-star[href]:focus-visible .journey-star__glyph { transform: rotate(-10deg) scale(1.3); } }
+.journey-star__copy { position: absolute; top: 32px; left: 50%; transform: translateX(-50%); width: clamp(112px, 14vw, 170px); text-align: center; color: #fcf9f3; }
+.journey-star--above .journey-star__copy { top: auto; bottom: 32px; }
+.journey-star__copy strong { display: block; font-family: 'Jersey 25', sans-serif; font-size: clamp(1.2rem, 2vw, 1.8rem); font-weight: 500; line-height: 1; }
+.journey-star__copy > span { display: block; margin: .45rem auto 0; max-width: 19ch; font-family: var(--bs-body-font-family); font-size: .75rem; line-height: 1.45; color: #fcf9f3bd; }
+@media (max-width: 700px) {
+  .journey-strip { top: calc(4% + 15vw); clip-path: inset(-120px var(--journey-clip, 42%) -120px 0); }
+  .journey-strip__map { left: 10vw; width: 78vw; height: 130px; }
+  .journey-star { width: 16px; height: 16px; }
+  .journey-star__copy { top: 23px; width: 21vw; }
+  .journey-star--above .journey-star__copy { top: auto; bottom: 23px; }
+  .journey-star__copy strong { font-size: clamp(.9rem, 3.8vw, 1.25rem); }
+  .journey-star__copy > span { font-size: clamp(.55rem, 2.4vw, .68rem); line-height: 1.3; }
+}
+@media (prefers-reduced-motion: reduce) { .journey-strip { display: none; } }
+
+/* The same milestones are available to screen readers and reduced-motion visitors. */
+.journey-accessible { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  #about.about-journey { flex-direction: column; justify-content: center; gap: 2rem; }
+  #about .journey-accessible { display: block; position: static; width: min(90%, 34rem); height: auto; overflow: visible; clip-path: none; white-space: normal; margin: 0; padding: 0 1rem; color: #fcf9f3; }
+  .journey-accessible li { margin: 1rem 0; }
+  .journey-accessible a { color: inherit; }
 }

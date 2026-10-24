@@ -8,14 +8,19 @@
     "watch:css": "sass scss/main.scss css/main.css --watch --style=expanded --no-source-map",
     "build:ts": "tsc",
     "watch:ts": "tsc --watch",
-    "build": "npm run build:css && npm run build:ts"
+    "build": "npm run build:css && npm run build:ts",
+    "build:journey-hover": "esbuild src/journey-hover.js --bundle --minify --format=esm --outfile=js/journey-hover.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "bootstrap": "^5.3.8",
+    "esbuild": "^0.28.2",
     "sass": "^1.102.0",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "motion": "^14.6.0"
   }
 }
