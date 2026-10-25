@@ -1,0 +1,109 @@
+/* Motion Prompt #145: scroll position alone controls the resume timeline. */
+.resume[data-resume-timeline] {
+  --timeline-accent: var(--bs-primary);
+  --timeline-track: rgba(50, 74, 95, .24);
+  position: relative;
+  isolation: isolate;
+}
+
+.resume.is-timeline-ready .resume-section:not(.resume-section--contact) .resume-entry {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: 3.5rem;
+  padding-bottom: 1.75rem;
+}
+
+.resume.is-timeline-ready .resume-section:not(.resume-section--contact) {
+  padding-bottom: clamp(2.5rem, 4vw, 4rem);
+}
+
+.resume.is-timeline-ready .resume-entry + .resume-entry {
+  padding-top: 1.75rem;
+}
+
+.resume.is-timeline-ready .resume-entry + .resume-entry .resume-timeline__dot {
+  top: calc(1.75rem + 8px);
+}
+
+.resume.is-timeline-ready .resume-entry > p:last-child {
+  margin-top: .75rem;
+}
+
+.resume-timeline__track,
+.resume-timeline__fill {
+  position: absolute;
+  display: block;
+  width: 3px;
+  border-radius: 1.5px;
+}
+
+.resume-timeline__track {
+  z-index: 0;
+  background: var(--timeline-track);
+  pointer-events: none;
+}
+
+.resume-timeline__fill {
+  top: 0;
+  left: 0;
+  background: var(--timeline-accent);
+}
+
+.resume-timeline__dot {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  left: 0;
+  display: block;
+  width: 15px;
+  height: 15px;
+  border: 2.5px solid var(--timeline-track);
+  border-radius: 50%;
+  background: #fff;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.resume-timeline__dot.is-reached {
+  border-color: var(--timeline-accent);
+}
+
+.resume-timeline__dot::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--timeline-accent);
+  content: "";
+  transform: translate(-50%, -50%) scale(var(--timeline-q, 0));
+}
+
+.resume.is-timeline-ready .resume-section:not(.resume-section--contact) .resume-entry > :not(.resume-timeline__dot) {
+  opacity: var(--timeline-q, 0);
+  transform: translateX(var(--timeline-slide, 16px));
+}
+
+.resume.is-timeline-ready .resume-entry__date {
+  order: -1;
+  margin-bottom: .5rem;
+  color: var(--timeline-accent);
+  font-size: 1.125rem;
+  font-weight: 700;
+  opacity: var(--timeline-q, 0);
+}
+
+@media (max-width: 767px) {
+  .resume.is-timeline-ready .resume-section:not(.resume-section--contact) .resume-entry {
+    padding-left: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume.is-timeline-ready .resume-section:not(.resume-section--contact) .resume-entry > :not(.resume-timeline__dot) {
+    opacity: 1;
+    transform: none;
+  }
+}
