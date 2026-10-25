@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/projects-index.css">
 </head>
 <body>
 
@@ -16,18 +17,24 @@
 
   <main class="container">
     <h1>Projects</h1>
-    <div class="project-index">
+    <div class="project-index" aria-label="All projects">
       <a class="project-index__item" href="powder-report/index.html">
         <span class="project-index__number">01</span>
-        <span><strong>SlopeSide</strong><small>Brand / Experience</small></span>
+        <strong class="project-index__name">SlopeSide</strong>
+        <span class="project-index__arrow" aria-hidden="true">→</span>
+        <span class="project-index__preview" aria-hidden="true"><img src="powder-report/assets/slopeside-promo.png" alt="" width="132" height="84"></span>
       </a>
       <a class="project-index__item" href="baguio/index.html">
         <span class="project-index__number">02</span>
-        <span><strong>Baguio: A Minimalist Travel Poster</strong><small>Illustration · Poster</small></span>
+        <strong class="project-index__name">Baguio</strong>
+        <span class="project-index__arrow" aria-hidden="true">→</span>
+        <span class="project-index__preview" aria-hidden="true"><img src="baguio/assets/final-poster.png" alt="" width="132" height="84"></span>
       </a>
       <a class="project-index__item" href="pin-it-down/index.html">
         <span class="project-index__number">03</span>
-        <span><strong>Badge &amp; Fridge Magnet Design</strong><small>Product Design · Toy / Gift</small></span>
+        <strong class="project-index__name">Pin It Down</strong>
+        <span class="project-index__arrow" aria-hidden="true">→</span>
+        <span class="project-index__preview" aria-hidden="true"><img src="pin-it-down/assets/final-magnet-mockup.png" alt="" width="132" height="84"></span>
       </a>
     </div>
   </main>
@@ -36,5 +43,6 @@
 
   <script src="../js/vendor/bootstrap.bundle.min.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/projects-index.js"></script>
 </body>
 </html>
