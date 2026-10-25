@@ -28,7 +28,7 @@
 .hifi-gallery { margin-top: 2rem; }
 .hifi-gallery figure { min-width: 0; margin: 0; overflow: hidden; border-radius: .9rem; background: #f4f2ed; }
 .hifi-gallery img { display: block; width: 100%; height: 19rem; object-fit: cover; object-position: center; transition: transform .3s ease; }
-.hifi-gallery__hero img { height: clamp(18rem, 45vw, 38rem); }
+.hifi-gallery__hero img { height: auto; }
 .hifi-gallery figure:hover img { transform: scale(1.02); }
 .hifi-gallery figcaption { padding: .7rem .85rem .85rem; color: rgba(12, 24, 33, .72); font-size: .825rem; font-style: italic; }
 @media (max-width: 600px) {
@@ -38,4 +38,5 @@
   .persona-grid figure { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .75rem; align-items: start; }
   .persona-grid figcaption { margin-top: 0; }
   .hifi-gallery img { height: 14rem; }
+  .hifi-gallery__hero img { height: auto; }
 }
