@@ -31,6 +31,18 @@
 .hifi-gallery__hero img { height: auto; }
 .hifi-gallery figure:hover img { transform: scale(1.02); }
 .hifi-gallery figcaption { padding: .7rem .85rem .85rem; color: rgba(12, 24, 33, .72); font-size: .825rem; font-style: italic; }
+.hifi-gallery__prototype { position: relative; display: block; overflow: hidden; cursor: pointer; }
+.hifi-gallery__prototype:focus-visible { outline: 3px solid #b94d2e; outline-offset: -3px; }
+.hifi-gallery__hint { position: absolute; right: 1rem; bottom: 1rem; display: inline-flex; max-width: calc(100% - 2rem); align-items: center; gap: .55rem; padding: .65rem .85rem; border-radius: 999px; background: rgba(12, 24, 33, .9); box-shadow: 0 4px 14px rgba(12, 24, 33, .22); color: #fff; font-family: "Archivo", sans-serif; font-size: .8rem; font-weight: 700; font-style: normal; line-height: 1.2; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .25s ease, transform .25s ease; }
+.hifi-gallery__hint > span { color: #ff754b; font-size: 1rem; }
+.hifi-gallery__prototype:hover .hifi-gallery__hint, .hifi-gallery__prototype:focus-visible .hifi-gallery__hint { opacity: 1; transform: translateY(0); }
+.hifi-gallery__hero figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1.25rem; }
+.hifi-gallery__links { display: inline-flex; flex-wrap: wrap; gap: .35rem 1rem; }
+.hifi-gallery__links a { color: #324a5f; font-family: "Archivo", sans-serif; font-size: .825rem; font-style: normal; font-weight: 700; text-decoration: underline; text-underline-offset: .15em; }
+.hifi-gallery__links a:hover, .hifi-gallery__links a:focus-visible { color: #b94d2e; }
+.hifi-gallery__links a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media (hover: none) { .hifi-gallery__hint { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hifi-gallery__hint, .hifi-gallery__prototype img { transition: none; } .hifi-gallery figure:hover img { transform: none; } }
 @media (max-width: 600px) {
   .ski-discovery { grid-template-columns: 1fr; gap: 1rem; }
   .slopeside-services > div { grid-template-columns: 1fr; gap: .35rem; }
