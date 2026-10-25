@@ -4,7 +4,7 @@
   isolation: isolate;
   min-height: 110svh;
   padding: 0 max(1.5rem, calc((100vw - 1200px) / 2));
-  overflow: visible;
+  overflow: clip;
   text-align: center;
 }
 #projects .home-projects__inner {
@@ -51,17 +51,20 @@
 
 .project-ship-intro {
   display: none;
-  position: absolute;
-  inset: 0;
+  position: sticky;
+  top: 0;
   z-index: 1;
+  width: 100vw;
+  height: 100svh;
+  margin: 0 calc(50% - 50vw) -100svh;
   overflow: hidden;
   pointer-events: none;
 }
-#projects.home-projects > .project-ship-intro { width: auto; max-width: none; }
+#projects.home-projects > .project-ship-intro { max-width: none; }
 .project-ship-intro__ship {
   position: absolute;
   left: 50%;
-  top: 66%;
+  top: 54%;
   width: clamp(250px, 40vw, 512px);
   aspect-ratio: 1774 / 887;
   --project-zoom: 5;
@@ -112,15 +115,14 @@
 
 .home-projects.is-project-armed .home-projects__grid,
 .home-projects.is-project-armed .home-projects__all { display: none; }
-.home-projects.is-project-armed .home-projects__intro { visibility: visible; opacity: 1; }
+.home-projects.is-project-armed .home-projects__intro { visibility: hidden; opacity: 0; }
 #projects.home-projects.is-project-heading .home-projects__inner { justify-content: flex-start; padding-top: clamp(2rem, 6svh, 4rem); }
-.home-projects.is-project-heading .home-projects__intro { visibility: visible; opacity: 1; animation: none; }
+.home-projects.is-project-heading .home-projects__intro { visibility: visible; animation: project-copy-in .8s cubic-bezier(.16, 1, .3, 1) both; }
 .home-projects.is-project-ship .project-ship-intro { display: block; }
 .home-projects.is-project-ship .project-ship-intro__ship { animation: project-ship-in 4.7s both; }
 #projects.home-projects.is-project-ship .home-projects__inner { z-index: 4; pointer-events: none; }
 .home-projects.is-project-settled .project-ship-intro { z-index: 3; pointer-events: auto; }
-body.is-project-view-active .journey-strip,
-body.is-project-view-active #about .about-journey__map { visibility: hidden; opacity: 0; transition: opacity .45s ease, visibility 0s linear .45s; }
+body.is-project-view-active .journey-strip { visibility: hidden; opacity: 0; transition: opacity .45s ease, visibility 0s linear .45s; }
 .home-projects.is-project-armed .home-projects__grid [data-project-transition] { view-transition-name: none; }
 @keyframes project-ship-in {
   0% { transform: translate(calc(-41.5% - 120vw), -53.5%) scale(1); }
@@ -132,7 +134,7 @@ body.is-project-view-active #about .about-journey__map { visibility: hidden; opa
 @media (max-width: 760px) {
   #projects.home-projects { padding-inline: 1.25rem; }
   #projects .home-projects__inner { min-height: 110svh; padding-block: 4.5rem; }
-  .project-ship-intro__ship { top: 68%; }
+  .project-ship-intro__ship { top: 59%; }
   .home-projects__star { display: none; }
   .home-projects__grid { grid-template-columns: 1fr; }
   .project-glass-card { width: min(100%, 35rem); margin-inline: auto; }

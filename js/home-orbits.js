@@ -10,7 +10,6 @@
   const aboutMask = document.querySelector('[data-about-mask]');
   const journeyStrip = document.querySelector('[data-journey-strip]');
   const journeyLinks = journeyStrip ? [...journeyStrip.querySelectorAll('a.journey-star')] : [];
-  const flightStage = document.querySelector('[data-home-flight]');
   const scrollCue = document.querySelector('[data-scroll-cue]');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   if (!astronaut || !hero || !stage || !scene || !about || frames.length !== 15) return;
@@ -29,7 +28,8 @@
   }
   let request = 0, motion = 0, selected = 0, landing = 0, landedAt = null;
   let pausedAt = null;
-  let finishedOnce = false, held = false, holdY = 0, cueAt = null, flightGap = 50, compositionOffset = 0;
+  let finishedOnce = false, hasReversed = false, revisitingAbout = false;
+  let farthestScrollY = 0, held = false, holdY = 0, cueAt = null, compositionOffset = 0;
   function balanceComposition() {
     if (!aboutMask || !journeyStrip) return;
     // Measure the whole visible group, including the labels outside the strip.
@@ -43,16 +43,6 @@
     compositionOffset = bottom - top <= availableBottom - availableTop
       ? Math.max(availableTop - top, Math.min(availableBottom - bottom, desired))
       : desired;
-  }
-  function updateFlightGap() {
-    if (!flightStage || !journeyStrip) return;
-    const labels = [...journeyStrip.querySelectorAll('.journey-star__copy')];
-    const bottom = Math.max(journeyStrip.getBoundingClientRect().bottom, ...labels.map(label => label.getBoundingClientRect().bottom));
-    const baseTop = flightStage.getBoundingClientRect().top - flightGap;
-    // Pull the next scene up to the actual timeline rather than the bottom
-    // of its taller container, while keeping 50px between the two.
-    const needed = Math.ceil(bottom + 50 - baseTop);
-    if (needed !== flightGap) { flightGap = needed; flightStage.style.marginTop = `${flightGap}px`; }
   }
   const pauseReasons = new Set();
   function setJourneyPause(reason, active) {
@@ -75,6 +65,10 @@
   }
   function render() {
     request = 0;
+    if (finishedOnce) {
+      if (scrollY < farthestScrollY - 8) revisitingAbout = true;
+      farthestScrollY = Math.max(farthestScrollY, scrollY);
+    }
     if (reduced.matches) {
       frames.forEach((image, i) => { image.style.opacity = i === 0 ? '1' : '0'; });
       astronaut.style.setProperty('--walk-y', '0px');
@@ -101,6 +95,13 @@
     // the reported scroll position is a fraction below the threshold.
     const position = held || (finishedOnce && Math.abs(scrollY - holdY) < 1) ? holdY : scrollY;
     landing = clamp((position - start) / (landingEnd - start));
+    const returning = finishedOnce && landing < 1;
+    if (returning) hasReversed = true;
+    const returnLayout = hasReversed || revisitingAbout;
+    const returnProgress = clamp((.08 - landing) / .08);
+    const returnReveal = returnProgress * returnProgress * (3 - 2 * returnProgress);
+    const postReturnLanding = finishedOnce && hasReversed && landing >= 1;
+    const aboutReverseVisible = finishedOnce && landing > 0.05;
     if (cueAt !== null && Math.abs(scrollY - cueAt) > 50) {
       scrollCue?.classList.remove('is-visible');
       cueAt = null;
@@ -110,9 +111,22 @@
       document.documentElement.dataset.journeyFinished = 'false';
       pausedAt = null;
       pauseReasons.clear();
-      if (journeyStrip) journeyStrip.inert = true;
-      renderAboutMask(0);
-      if (journeyStrip) journeyStrip.style.setProperty('--journey-visible', '0');
+      if (journeyStrip) {
+        const journeyOpacity = finishedOnce
+          ? (landing > 0.05 ? 1 : clamp(landing / 0.05))
+          : 0;
+        const retainJourney = journeyOpacity > 0.4;
+        journeyStrip.inert = !retainJourney;
+        journeyStrip.style.setProperty('--journey-visible', String(journeyOpacity));
+        if (journeyOpacity > 0) {
+          // Keep the completed About constellation through the reverse pass,
+          // then let it leave before the opening hero returns.
+          journeyStrip.style.setProperty('--journey-x', '0px');
+          journeyStrip.style.setProperty('--journey-clip', '0px');
+          journeyLinks.forEach(link => { link.tabIndex = retainJourney ? 0 : -1; });
+        }
+      }
+      renderAboutMask(aboutReverseVisible ? 1200 : 0);
       astronaut.style.setProperty('--walk-x', '0px');
       selectFrame(Math.round(landing * 6));
     }
@@ -127,19 +141,27 @@
     const releaseOffset = finishedOnce ? 0 : releaseDistance * (release - release * release / 2);
     const y = Math.max(0, Math.min(position - start, holdEnd - start))
       + releaseOffset + baseCenter - scaledCenter;
-    astronaut.style.setProperty('--walk-y', `${y}px`);
+    astronaut.style.setProperty('--walk-y', `${returning ? -44 * (1 - returnReveal) : y}px`);
+    const aboutSceneOffset = landing * Math.min(innerHeight * .13, 160);
     if (aboutMask) {
       aboutMask.style.setProperty('--intro-y', `${y}px`);
-      aboutMask.style.setProperty('--scene-offset', `${landing * Math.min(innerHeight * .13, 160)}px`);
+      aboutMask.style.setProperty('--scene-offset', `${aboutSceneOffset}px`);
     }
     if (journeyStrip) {
+      // On a reverse pass, carry the entire constellation with the About copy.
+      // It remains part of the page composition rather than sticking to the viewport.
       journeyStrip.style.setProperty('--intro-y', `${y}px`);
-      journeyStrip.style.setProperty('--scene-offset', `${-landing * Math.min(innerHeight * .04, 50)}px`);
+      journeyStrip.style.setProperty('--scene-offset', `${returnLayout ? aboutSceneOffset : -landing * Math.min(innerHeight * .04, 50)}px`);
+      const returnGapShift = returnLayout
+        ? aboutSceneOffset + landing * Math.min(innerHeight * .04, 50)
+          + Math.min(100, 40 + (1 - landing) * 110)
+        : 0;
+      journeyStrip.style.setProperty('--return-gap-shift', `${returnGapShift}px`);
     }
     if (held) balanceComposition();
     if (aboutMask) aboutMask.style.setProperty('--composition-offset', `${compositionOffset * landing}px`);
-    if (journeyStrip) journeyStrip.style.setProperty('--composition-offset', `${compositionOffset * landing}px`);
-    astronaut.style.setProperty('--walk-scale', String(scale));
+    if (journeyStrip) journeyStrip.style.setProperty('--composition-offset', `${hasReversed ? compositionOffset * landing : returning ? 0 : compositionOffset * landing}px`);
+    astronaut.style.setProperty('--walk-scale', String(returning ? .94 + .06 * returnReveal : scale));
     astronaut.style.setProperty('--walk-clearance', '0px');
     if (landing >= 1 && aboutMask) {
       // Keep the whole figure below the introduction throughout the walk.
@@ -152,34 +174,63 @@
       const characterTop = astronaut.getBoundingClientRect().top;
       astronaut.style.setProperty('--walk-clearance', `${Math.max(0, desiredTop - characterTop)}px`);
     }
-    astronaut.style.opacity = '1';
+    astronaut.style.opacity = postReturnLanding ? '0' : returning ? String(returnReveal) : '1';
 
     const fade = clamp((landing - .35) / .6);
-    hero.style.setProperty('--banner-opacity', String(1 - fade * fade * (3 - 2 * fade)));
-    hero.classList.toggle('banner-gone', fade >= .99);
-    if (landing >= 1) updateFlightGap();
+    const bannerOpacity = finishedOnce && landing < 1
+      ? 1 - clamp(landing / 0.05)
+      : 1 - fade * fade * (3 - 2 * fade);
+    hero.style.setProperty('--banner-opacity', String(bannerOpacity));
+    hero.classList.toggle('banner-gone', bannerOpacity <= .01);
   }
   function schedule() { if (!request) request = requestAnimationFrame(render); }
   function animate(time) {
     if (reduced.matches || document.hidden) { motion = 0; return; }
     if (landing >= 1) {
+      // The walking sequence belongs to the first trip through About. After
+      // the visitor has returned toward the banner, keep the route in place
+      // and let the page continue without replaying that walk into Projects.
+      if (finishedOnce && hasReversed) {
+        if (document.documentElement.dataset.journeyFinished !== 'true') {
+          document.documentElement.dataset.journeyFinished = 'true';
+          cueAt = scrollY;
+          scrollCue?.classList.add('is-visible');
+          document.dispatchEvent(new Event('journeyfinished'));
+        }
+        renderAboutMask(1200);
+        astronaut.style.opacity = '0';
+        astronaut.style.setProperty('--walk-x', '0px');
+        if (journeyStrip) {
+          journeyStrip.inert = false;
+          journeyStrip.style.setProperty('--journey-visible', '1');
+          journeyStrip.style.setProperty('--journey-x', '0px');
+          journeyStrip.style.setProperty('--journey-clip', '0px');
+        }
+        motion = requestAnimationFrame(animate);
+        return;
+      }
       if (landedAt === null) landedAt = time;
       const elapsed = (pausedAt === null ? time : pausedAt) - landedAt;
       renderAboutMask(elapsed);
       const turnDuration = 500;
+      const walkSpeed = 2;
       const step = Math.floor(elapsed / 100);
       // Turn right and walk to the right third before the tracking shot.
       const turnSteps = 5;
       // The three right-facing steps alternate with the feet-together pose.
-      const walkCycle = [12, 11, 13, 11, 14, 11];
-      const walkStep = Math.floor((elapsed - turnDuration) / 150);
+      const walkCycle = [12, 11, 14, 11];
+      // Keep the gait readable while the character travels faster.
+      const walkStep = Math.floor((elapsed - turnDuration) / 120);
       const frame = step < turnSteps ? 7 + step : walkCycle[walkStep % walkCycle.length];
       if (frame !== selected) selectFrame(frame);
-      const travel = clamp((elapsed - turnDuration) / 1700);
-      const trackStart = turnDuration + 1700;
-      const track = clamp((elapsed - trackStart) / 3200);
+      const travelDuration = 1700 / walkSpeed;
+      const trackDuration = 3200 / walkSpeed;
+      const exitDuration = 1600 / walkSpeed;
+      const travel = clamp((elapsed - turnDuration) / travelDuration);
+      const trackStart = turnDuration + travelDuration;
+      const track = clamp((elapsed - trackStart) / trackDuration);
       // Continue walking across the frame as the trail unfolds behind him.
-      const exit = clamp((elapsed - trackStart - 3200 - 600) / 1600);
+      const exit = clamp((elapsed - trackStart - trackDuration - 600) / exitDuration);
       if (exit >= 1 && document.documentElement.dataset.journeyFinished !== 'true') {
         document.documentElement.dataset.journeyFinished = 'true';
         if (!finishedOnce) {

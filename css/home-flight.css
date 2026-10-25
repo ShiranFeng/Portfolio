@@ -1,17 +1,21 @@
-/* The next little journey occupies the open space before the gallery. */
+/* The bridge after About stays pinned while the ship passes right to left. */
 .home-page #main > .home-flight {
-  position: relative;
+  position: sticky;
+  top: 0;
+  left: 0;
   z-index: 1;
   width: 100%;
   max-width: none;
-  margin-top: 50px;
-  height: min(70svh, 680px);
-  transition: height .45s ease;
+  height: 100svh;
+  margin: 0;
   pointer-events: none;
   overflow: hidden;
 }
-.home-page #main > .home-flight.is-complete { height: 0; }
+.home-page #main > .home-flight.is-complete {
+  height: 0;
+}
 .home-flight canvas { display: block; width: 100%; height: 100%; }
+.project-flight-lock { scroll-behavior: auto !important; overscroll-behavior: none; }
 .home-page body > .scroll-cue {
   position: fixed;
   z-index: 30;

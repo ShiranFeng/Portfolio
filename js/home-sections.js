@@ -2,7 +2,7 @@
 (() => {
   if (!('IntersectionObserver' in window) || !Element.prototype.animate) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const sections = [...document.querySelectorAll('.home-intro-section')];
+  const sections = [...document.querySelectorAll('.home-intro-section:not(#projects)')];
   const played = new WeakSet();
   const animations = new Set();
 

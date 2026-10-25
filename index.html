@@ -14,14 +14,13 @@
   <link rel="stylesheet" href="css/home-motion.css?v=font-restore-14">
   <link rel="stylesheet" href="css/home-paper.css">
   <script src="js/home-motion.js?v=pinned-1" defer></script>
-  <link rel="stylesheet" href="css/home-gallery.css">
-  <link rel="stylesheet" href="css/home-flight.css?v=7">
-  <link rel="stylesheet" href="css/home-about.css">
-  <link rel="stylesheet" href="css/home-projects.css?v=project-pinned-entry-19">
+  <link rel="stylesheet" href="css/home-gallery.css?v=gallery-frame-2">
+  <link rel="stylesheet" href="css/home-flight.css?v=about-project-transition-1">
+  <link rel="stylesheet" href="css/home-about.css?v=remove-empty-map-2">
+  <link rel="stylesheet" href="css/home-projects.css?v=project-return-sticky-2">
   <link rel="stylesheet" href="css/project-view-transition.css?v=1">
-  <script src="js/home-about.js" defer></script>
   <script src="js/home-projects.js?v=project-pinned-entry-11" defer></script>
-  <link rel="stylesheet" href="css/home-orbits.css?v=uniform-blue-25">
+  <link rel="stylesheet" href="css/home-orbits.css?v=about-return-gap-3">
   <script src="js/home-gallery.js" defer></script>
 </head>
 <body class="motion-home">
@@ -156,18 +155,6 @@
         <li><a href="about.html#drawing-stories"><strong>Drawing &amp; stories</strong> — Ideas finding their own shape.</a></li>
         <li><a href="about.html#contact-title"><strong>What's next?</strong> — Seeing what drawing can become.</a></li>
       </ol>
-      <div class="about-journey__map">
-        <svg class="about-journey__route" viewBox="0 0 1000 420" aria-hidden="true"><path d="M80 260 C140 300 190 305 270 285 S390 85 480 135 S670 320 730 250 S845 185 910 75"/></svg>
-        <ol class="about-journey__stops" inert aria-hidden="true">
-          <li style="--x:8%;--y:61.9%;--delay:0s"><a href="about.html"><strong>Weifang</strong><span>Where my story starts.</span></a></li>
-          <li style="--x:27%;--y:67.9%;--delay:.18s"><a href="about.html"><strong>Toronto</strong><span>A different place to see from.</span></a></li>
-          <li style="--x:48%;--y:32.1%;--delay:.36s"><a href="about.html#education-title"><strong>OCAD</strong><span>Learning through illustration.</span></a></li>
-          <li style="--x:73%;--y:59.5%;--delay:.54s"><a href="gallery.html"><strong>Drawing & stories</strong><span>Ideas finding their own shape.</span></a></li>
-          <li style="--x:91%;--y:17.9%;--delay:.72s"><a href="about.html#contact-title"><strong>What's next?</strong><span>Seeing what drawing can become.</span></a></li>
-        </ol>
-        <img class="about-journey__astronaut" src="assets/home-astronaut/about-spaceship.png" width="1391" height="1131" alt="" aria-hidden="true" hidden>
-      </div>
-      <div class="about-journey__more"><a class="btn btn-outline-light" href="about.html">Read more ↗</a></div>
     </section>
     </div>
     <div class="home-flight" data-home-flight aria-hidden="true"><canvas></canvas></div>
@@ -190,17 +177,17 @@
         </div>
         <div class="home-projects__grid">
           <a class="project-glass-card project-glass-card--slope" href="projects/powder-report/index.html" aria-label="Read the SlopeSide case study">
-            <img src="projects/powder-report/assets/slopeside-promo.png" alt="SlopeSide campaign visual showing a phone held in a ski glove" loading="lazy">
+            <img src="projects/powder-report/assets/slopeside-promo.png" data-project-transition="slopeside" alt="SlopeSide campaign visual showing a phone held in a ski glove" loading="lazy">
             <span class="project-glass-card__shine" aria-hidden="true"></span>
             <span class="project-glass-card__content"><img class="project-glass-card__brand-mark" src="projects/powder-report/assets/slopeside-mark.png" alt=""><span class="project-glass-card__number">01</span><span class="project-glass-card__copy"><strong>SlopeSide</strong><small>Case Study · Brand &amp; Experience</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
           </a>
           <a class="project-glass-card project-glass-card--baguio" href="projects/baguio/index.html" aria-label="Read the Baguio travel poster case study">
-            <img src="projects/baguio/assets/final-poster.png" alt="Colourful Baguio travel poster" loading="lazy">
+            <img src="projects/baguio/assets/final-poster.png" data-project-transition="baguio" alt="Colourful Baguio travel poster" loading="lazy">
             <span class="project-glass-card__shine" aria-hidden="true"></span>
             <span class="project-glass-card__content"><span class="project-glass-card__number">02</span><span class="project-glass-card__copy"><strong>Baguio</strong><small>Illustration · Poster</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
           </a>
           <a class="project-glass-card project-glass-card--pin" href="projects/pin-it-down/index.html" aria-label="Read the Pin It Down case study">
-            <img src="projects/pin-it-down/assets/final-magnet-mockup.png" alt="Panda and gourd fridge magnet mockup" loading="lazy">
+            <img src="projects/pin-it-down/assets/final-magnet-mockup.png" data-project-transition="pin-it-down" alt="Panda and gourd fridge magnet mockup" loading="lazy">
             <span class="project-glass-card__shine" aria-hidden="true"></span>
             <span class="project-glass-card__content"><span class="project-glass-card__number">03</span><span class="project-glass-card__copy"><strong>Pin It Down</strong><small>Product Design · Toy / Gift</small></span><span class="project-glass-card__arrow" aria-hidden="true">↗</span></span>
           </a>
@@ -213,7 +200,14 @@
         <h2 id="gallery-title">Gallery</h2>
         <p>Things I've drawn — for class, for no reason, or because a friend asked.</p>
       </div>
+      <div class="home-gallery-controls">
+        <button type="button" data-gallery-prev aria-label="Previous artworks">←</button>
+        <button type="button" data-gallery-pause aria-pressed="false">Pause</button>
+        <button type="button" data-gallery-next aria-label="Next artworks">→</button>
+        <a href="gallery.html">Explore Gallery ↗</a>
+      </div>
       <div class="home-gallery-arc" role="region" aria-label="Artwork carousel">
+        <div class="home-gallery-earth" aria-hidden="true"><img src="assets/gallery/pixel-earth.png" alt="" loading="lazy" decoding="async" draggable="false"></div>
         <a class="home-gallery-card" href="gallery.html" aria-label="View gallery: Architectural environment illustration"><img src="assets/gallery/alexo3.webp" alt="Architectural environment illustration" loading="lazy" draggable="false"></a>
         <a class="home-gallery-card" href="gallery.html" aria-label="View gallery: Three figures in a futuristic architectural space"><img src="assets/gallery/alexo4.webp" alt="Three figures in a futuristic architectural space" loading="lazy" draggable="false"></a>
         <a class="home-gallery-card" href="gallery.html" aria-label="View gallery: Detailed monochrome interior drawing"><img src="assets/gallery/alexo5.webp" alt="Detailed monochrome interior drawing" loading="lazy" draggable="false"></a>
@@ -228,12 +222,6 @@
         <a class="home-gallery-card" href="gallery.html" aria-label="View gallery: Graphite still life study"><img src="assets/gallery/alexo12.webp" alt="Graphite still life study" loading="lazy" draggable="false"></a>
         <a class="home-gallery-card" href="gallery.html" aria-label="View gallery: Colourful lantern and koi composition"><img src="assets/gallery/alexo13.webp" alt="Colourful lantern and koi composition" loading="lazy" draggable="false"></a>
         <a class="home-gallery-card" href="gallery.html" aria-label="View gallery: Illustration artwork"><img src="assets/gallery/artwork-8865.webp" alt="Illustration artwork" loading="lazy" draggable="false"></a>
-      </div>
-      <div class="home-gallery-controls">
-        <button type="button" data-gallery-prev aria-label="Previous artworks">←</button>
-        <button type="button" data-gallery-pause aria-pressed="false">Pause</button>
-        <button type="button" data-gallery-next aria-label="Next artworks">→</button>
-        <a href="gallery.html">Explore Gallery ↗</a>
       </div>
     </section>
     <section class="home-intro-section" id="work" aria-labelledby="work-title">
@@ -294,8 +282,8 @@
   <dialog class="draft-dialog" aria-labelledby="draft-dialog-title" hidden><button class="draft-dialog__close" type="button" aria-label="Close artwork">×</button><img src="" alt=""><h2 id="draft-dialog-title"></h2></dialog>
   <script src="js/vendor/bootstrap.bundle.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/home-orbits.js?v=journey-stars-25"></script>
-  <script src="js/home-flight.js?v=10"></script>
+  <script src="js/home-orbits.js?v=about-return-gap-3"></script>
+  <script src="js/home-flight.js?v=12"></script>
   <script type="module" src="js/journey-hover.js?v=1"></script>
   <script src="js/home-sections.js"></script>
 </body>

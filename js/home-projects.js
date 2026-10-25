@@ -1,6 +1,7 @@
 (() => {
   'use strict';
   const section = document.querySelector('#projects.home-projects');
+  const flightStage = document.querySelector('[data-home-flight]');
   const inner = section?.querySelector('.home-projects__inner');
   const grid = section?.querySelector('.home-projects__grid');
   const intro = section?.querySelector('.home-projects__intro');
@@ -50,6 +51,11 @@
       shipFallbackTimer = setTimeout(settleProjectShip, 5000);
     }, 1050);
   }
+  function syncProjectViewVisibility() {
+    if (!started) return;
+    const marker = flightStage || section;
+    document.body.classList.toggle('is-project-view-active', marker.getBoundingClientRect().top <= 0);
+  }
   function prepareProjectSequence() {
     if (prepared || reduced.matches) return;
     prepared = true;
@@ -92,6 +98,8 @@
       announceContentComplete();
     });
   }
+  addEventListener('scroll', syncProjectViewVisibility, { passive: true });
+  addEventListener('resize', syncProjectViewVisibility);
 
   // The spotlight stays directly under the pointer within each glass card.
   function lightAt(x, y) {

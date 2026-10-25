@@ -3,7 +3,7 @@
 .orbit-hero .mind-role { position: relative; top: auto; right: auto; text-align: center; margin: .5rem 1rem 0; font-size: .75rem; }
 .orbit-hero .mind-scene { display: none; }
 .orbit-stage { position: relative; z-index: 2; isolation: isolate; width: min(100%, 1050px); aspect-ratio: 1000 / 650; margin-top: -1rem; }
-.orbit-astronaut { --walk-y: 0px; --float-y: 0px; --walk-scale: 1; position: absolute; left: 50%; top: 4%; width: 47%; aspect-ratio: 1149 / 1369; transform: translate(calc(-50% + var(--walk-x, 0px)), calc(var(--walk-y) + var(--float-y) + var(--walk-clearance, 0px))) scale(var(--walk-scale)); transform-origin: 50% 20%; z-index: 3; pointer-events: none; }
+.orbit-astronaut { --walk-y: 0px; --float-y: 0px; --walk-scale: 1; position: absolute; left: 50%; top: 4%; width: 47%; aspect-ratio: 1149 / 1369; transform: translate(calc(-50% + var(--walk-x, 0px)), calc(var(--walk-y) + var(--float-y) + var(--walk-clearance, 0px))) scale(var(--walk-scale)); transform-origin: 50% 20%; z-index: 3; pointer-events: none; transition: opacity .28s ease; }
 .orbit-astronaut__frame { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; will-change: opacity; }
 .orbit-astronaut__gaze { position: absolute; inset: 0; z-index: 5; opacity: var(--gaze-opacity, 1); pointer-events: none; }
 .orbit-astronaut__eye { position: absolute; width: 7.1%; aspect-ratio: 1.58; overflow: hidden; border-radius: 50%; clip-path: ellipse(48% 47% at 50% 50%); isolation: isolate; }
@@ -22,23 +22,14 @@
 @media (pointer: fine) { .orbit-icon:hover .orbit-tooltip, .orbit-icon:focus-visible .orbit-tooltip { opacity: 1; transform: translate(-50%, 0); } }
 .orbit-icon.is-tooltip-open .orbit-tooltip { opacity: 1; transform: translate(-50%, 0); }
 .orbit-pause { color: inherit; background: transparent; border: 1px solid #ffffff60; border-radius: 2rem; padding: .5rem 1rem; font-size: .75rem; }
-.home-space-scene { position: relative; isolation: isolate; background: var(--bs-secondary); }
+.home-space-scene { position: relative; isolation: isolate; padding-bottom: clamp(11rem, 27svh, 13rem); background: var(--bs-secondary); }
 .home-space-scene .orbit-hero { overflow: visible; background: transparent; z-index: 1; }
 .home-space-scene .orbit-hero::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: url("../assets/home-stars/starfield-overlay.png") center / cover no-repeat; opacity: .46; filter: saturate(.82) brightness(.86); mix-blend-mode: screen; -webkit-mask-image: radial-gradient(ellipse 64% 55% at 50% 24%, transparent 0 16%, #0003 38%, #000 76%), linear-gradient(to bottom, #000 0 72%, #0008 86%, transparent 100%); -webkit-mask-composite: source-in; mask-image: radial-gradient(ellipse 64% 55% at 50% 24%, transparent 0 16%, #0003 38%, #000 76%), linear-gradient(to bottom, #000 0 72%, #0008 86%, transparent 100%); mask-composite: intersect; }
 .home-space-scene #about { background: transparent; }
 .home-space-scene #about > div { position: relative; z-index: 2; }
-/* Keep the About copy in the markup while the landing scene is being designed. */
-#about.about-journey { position: relative; min-height: 100svh; display: flex; align-items: center; }
-/* The following scene measures its own clearance from the timeline. */
-@media (prefers-reduced-motion: no-preference) {
-  #about.about-journey { min-height: 100svh; }
-}
-#about .about-journey__more,
-#about .about-journey__stops strong, #about .about-journey__stops span,
-#about .about-journey__astronaut, #about .about-journey__route { display: none; }
-#about .about-journey__stops { display: none; }
+/* About ends with the timeline; the flight bridge follows immediately. */
+#about.about-journey { position: relative; min-height: 0; padding: 0; display: block; }
 #about .about-journey__intro { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-#about .about-journey__map { margin: 0 auto; }
 .star-stage { width: 100%; aspect-ratio: 1440 / 780; min-height: min(78vw, 819px); margin-top: clamp(-12rem, -11vw, -10rem); }
 .orbit-system { position: absolute; left: 50%; top: calc(clamp(2rem, 5vw, 4.5rem) + 70px); z-index: 10; width: min(100%, 1050px); aspect-ratio: 1000 / 650; transform: translateX(-50%); isolation: isolate; }
 .star-stage .orbit-astronaut { width: 47%; top: 4%; }
@@ -76,7 +67,7 @@
 /* A continuous, low-contrast constellation carries the visitor between each chapter. */
 .home-page #main { position: relative; isolation: isolate; overflow: clip; background: #0c1821; }
 .home-story-sky { position: absolute; inset: 0 0 auto; height: 100svh; z-index: 0; pointer-events: none; overflow: hidden; opacity: .72; transition: opacity .7s ease; }
-.home-page #main > :not(.home-story-sky) { position: relative; z-index: 1; }
+.home-page #main > :not(.home-story-sky):not(.home-flight) { position: relative; z-index: 1; }
 .home-page #about, .home-page #gallery, .home-page #projects, .home-page #work { background-color: transparent; }
 .home-story-spark, .home-story-comet { position: absolute; display: block; background-image: url("../assets/home-stars/glow-stars-and-comets-v2.png"); background-repeat: no-repeat; mix-blend-mode: screen; filter: saturate(.28) brightness(1.05) contrast(.84) drop-shadow(0 0 10px #efe5d342); will-change: transform, opacity; }
 .home-story-spark--one { width: clamp(2rem,4vw,4.25rem); aspect-ratio: 1; background-size: 520% auto; background-position: 62% 48%; left: 6%; top: 18%; opacity: .38; }
@@ -93,6 +84,7 @@
 .orbit-astronaut__blink { z-index: 6; }
 @media (prefers-reduced-motion: reduce) {
   .orbit-astronaut__blink { display: none; }
+  .orbit-astronaut { transition: none; }
 }
 
 /* The banner fades away as the astronaut reaches About. */
@@ -146,7 +138,7 @@
 }
 
 /* A single open constellation trail, carried behind the walking astronaut. */
-.journey-strip { --intro-y: 0px; --journey-x: 75vw; --journey-visible: 0; position: absolute; z-index: 2; left: 50%; top: calc(4% + min(20vw, 210px)); width: 100vw; height: clamp(185px, 23vw, 245px); transform: translate(-50%, calc(var(--intro-y) + var(--scene-offset, 0px) + var(--composition-offset, 0px))); clip-path: inset(-120px var(--journey-clip, 42%) -120px 0); opacity: var(--journey-visible); pointer-events: none; }
+.journey-strip { --intro-y: 0px; --journey-x: 75vw; --journey-visible: 0; position: absolute; z-index: 2; left: 50%; top: calc(4% + min(20vw, 210px) - var(--return-gap-shift, 0px)); width: 100vw; height: clamp(185px, 23vw, 245px); transform: translate(-50%, calc(var(--intro-y) + var(--scene-offset, 0px) + var(--composition-offset, 0px))); clip-path: inset(-120px var(--journey-clip, 42%) -120px 0); opacity: var(--journey-visible); pointer-events: none; }
 .journey-strip__map { position: absolute; top: 0; left: 9vw; width: 80vw; height: 200px; transform: translateX(var(--journey-x)); }
 .journey-strip__route { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .journey-strip__route path { fill: none; stroke: #f1e7d2; stroke-width: 1.35; stroke-opacity: .7; vector-effect: non-scaling-stroke; }
@@ -162,7 +154,7 @@
 .journey-star__copy strong { display: block; font-family: 'Jersey 25', sans-serif; font-size: clamp(1.2rem, 2vw, 1.8rem); font-weight: 500; line-height: 1; }
 .journey-star__copy > span { display: block; margin: .45rem auto 0; max-width: 19ch; font-family: var(--bs-body-font-family); font-size: .75rem; line-height: 1.45; color: #fcf9f3bd; }
 @media (max-width: 700px) {
-  .journey-strip { top: calc(4% + 15vw); clip-path: inset(-120px var(--journey-clip, 42%) -120px 0); }
+  .journey-strip { top: calc(4% + 15vw - var(--return-gap-shift, 0px)); clip-path: inset(-120px var(--journey-clip, 42%) -120px 0); }
   .journey-strip__map { left: 10vw; width: 78vw; height: 130px; }
   .journey-star { width: 16px; height: 16px; }
   .journey-star__copy { top: 23px; width: 21vw; }
@@ -175,7 +167,7 @@
 /* The same milestones are available to screen readers and reduced-motion visitors. */
 .journey-accessible { display: none; }
 @media (prefers-reduced-motion: reduce) {
-  #about.about-journey { flex-direction: column; justify-content: center; gap: 2rem; }
+  #about.about-journey { min-height: auto; padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: center; gap: 2rem; }
   #about .journey-accessible { display: block; position: static; width: min(90%, 34rem); height: auto; overflow: visible; clip-path: none; white-space: normal; margin: 0; padding: 0 1rem; color: #fcf9f3; }
   .journey-accessible li { margin: 1rem 0; }
   .journey-accessible a { color: inherit; }

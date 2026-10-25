@@ -1,14 +1,59 @@
 .home-gallery { min-height: 100svh !important; gap: clamp(1.5rem, 3vh, 2.75rem); overflow: hidden; }
+.home-projects + .home-gallery { border-top: 0; }
 .home-gallery-copy h2 { font-size: clamp(2.6rem, 5vw, 4.75rem) !important; letter-spacing: -.03em; }
 .home-gallery > .home-gallery-arc { position: relative; width: 100%; max-width: 64rem; height: clamp(18rem, 27vw, 22rem); touch-action: pan-y; }
 .home-gallery-card { position: absolute; left: 50%; top: 38%; width: clamp(6.5rem, 10.5vw, 8.5rem); aspect-ratio: 1; display: grid; place-items: center; transform: translate(-50%, -50%); will-change: transform; z-index: var(--card-layer, 1); }
-.home-gallery-card img { box-sizing: border-box; display: block; width: 100%; height: 100%; aspect-ratio: 1; padding: 0; border: 0; object-fit: cover; object-position: center; box-shadow: 0 3px 6px #0003, 0 10px 18px #0004; transition: transform .35s ease, box-shadow .35s ease; }
+.home-gallery-card img { position: absolute; left: 12.1%; top: 12.1%; z-index: 1; box-sizing: border-box; display: block; width: 75.8%; height: 75.8%; aspect-ratio: 1; padding: 0; border: 0; object-fit: cover; object-position: center; box-shadow: inset 0 0 0 1px #3a1d0d, 0 2px 4px #0005; transition: transform .35s ease, box-shadow .35s ease; }
+.home-gallery-card::after { content: ""; position: absolute; inset: -15.6%; z-index: 2; background: url("../assets/gallery/pixel-wood-frame.png") center / 100% 100% no-repeat; image-rendering: pixelated; filter: drop-shadow(0 4px 4px #0007); pointer-events: none; transition: transform .35s ease, filter .35s ease; }
 .home-gallery-card:hover, .home-gallery-card:focus-visible { z-index: 20; outline: none; }
-.home-gallery-card:hover img, .home-gallery-card:focus-visible img { transform: translateY(-2.5rem) rotate(var(--unrotate, 0deg)) scale(1.35); box-shadow: 0 18px 24px #0007; }
-.home-gallery-card:focus-visible img { outline: 2px solid #fcf9f3; outline-offset: 6px; }
+.home-gallery-card:hover img, .home-gallery-card:focus-visible img { transform: translateY(-2rem) rotate(var(--unrotate, 0deg)) scale(1.28); box-shadow: inset 0 0 0 1px #3a1d0d, 0 3px 7px #0006; }
+.home-gallery-card:hover::after, .home-gallery-card:focus-visible::after { transform: translateY(-2rem) rotate(var(--unrotate, 0deg)) scale(1.28); filter: drop-shadow(0 12px 10px #0008); }
+.home-gallery-card:focus-visible::after { outline: 2px solid #fcf9f3; outline-offset: 6px; }
 .home-gallery-controls { display: flex; align-items: center; justify-content: center; gap: .75rem; flex-wrap: wrap; }
 .home-gallery-controls button { color: inherit; background: transparent; border: 1px solid #fcf9f360; border-radius: 2rem; min-width: 2.75rem; min-height: 2.75rem; padding: .5rem .9rem; }
 .home-gallery-controls a { color: inherit; margin-left: .75rem; text-underline-offset: .3em; }
 .home-gallery-controls button:hover { background: #fcf9f31a; }
 @media (prefers-reduced-motion: reduce) { .home-gallery-card img { transition: none; } }
 @media (max-width: 760px) { .home-gallery { min-height: clamp(34rem, 80svh, 48rem) !important; } }
+
+
+/* A pixel-art Earth sits behind the carousel and turns with its motion. */
+.home-gallery-earth {
+  position: absolute;
+  z-index: 0;
+  top: 53%;
+  left: 50%;
+  width: clamp(20rem, 80vw, 72rem);
+  height: clamp(6rem, 24vw, 21.6rem);
+  overflow: hidden;
+  transform: translateX(-50%);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, #000c 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, #000c 88%, transparent 100%);
+}
+.home-gallery-earth img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  transform: rotate(var(--earth-turn, 0deg));
+  transform-origin: center;
+  filter: drop-shadow(0 10px 16px #0005);
+  user-select: none;
+  will-change: transform;
+}
+.home-gallery-controls { position: relative; z-index: 2; }
+@media (max-width: 760px) {
+  .home-gallery-earth {
+    top: 55%;
+    width: min(92vw, 40rem);
+    height: min(27.6vw, 12rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-gallery-earth img { will-change: auto; }
+}

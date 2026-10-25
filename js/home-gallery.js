@@ -4,6 +4,7 @@
   if (!section) return;
   const arc = section.querySelector('.home-gallery-arc');
   const cards = [...arc.querySelectorAll('.home-gallery-card')];
+  const earth = arc.querySelector('.home-gallery-earth img');
   const pause = section.querySelector('[data-gallery-pause]');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let paused = reduced.matches;
@@ -15,6 +16,8 @@
   const draw = () => {
     const step = spacing();
     const length = cards.length * step;
+    // One Earth revolution matches one full carousel cycle; negative offset spins left.
+    if (earth) earth.style.setProperty('--earth-turn', `${(offset / length) * 360}deg`);
     cards.forEach((card, i) => {
       const x = ((i * step + offset + length / 2) % length + length) % length - length / 2;
       const ratio = x / (width / 2);
