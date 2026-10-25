@@ -1,10 +1,10 @@
-/* Motion Prompt #147: the three featured artworks follow scroll position. */
+/* Motion Prompt #147: every artwork follows the same scroll-driven stack. */
 (() => {
   const grid = document.querySelector('.artwork-gallery');
   const banner = document.querySelector('.gallery-banner');
   if (!grid || !banner) return;
   const artworks = [...grid.querySelectorAll('.artwork-card')];
-  if (artworks.length < 3) return;
+  if (!artworks.length) return;
   grid.id = 'gallery-all-artworks';
   const heading = grid.querySelector('.gallery-section-heading');
   if (heading) grid.before(heading);
@@ -26,18 +26,19 @@
 
   const controls = document.createElement('div');
   controls.className = 'gallery-view-controls';
-  controls.innerHTML = '<span>Selected works / Scroll to explore</span><button type="button" aria-controls="gallery-all-artworks">View all artworks</button>';
+  controls.innerHTML = `<span>All ${artworks.length} artworks / Scroll to explore</span><button type="button" aria-controls="gallery-all-artworks">View as grid</button>`;
 
   const stack = document.createElement('section');
   stack.id = 'gallery-stack';
   stack.className = 'gallery-stack';
-  stack.setAttribute('aria-label', 'Selected artworks, stacking on scroll');
-  const featured = [artworks[2], artworks[8], artworks[13]];
-  const cards = featured.map((artwork, i) => {
+  stack.setAttribute('aria-label', 'All artworks, stacking on scroll');
+  const cards = artworks.map((artwork, i) => {
     const card = document.createElement('button');
     card.type = 'button';
-    card.className = `gallery-stack-card gallery-stack-card--${i + 1}`;
+    card.className = `gallery-stack-card gallery-stack-card--tone-${i % 3 + 1}`;
     card.style.setProperty('--stack-top', `${14 + i * 12}px`);
+    card.style.zIndex = String(i + 1);
+    if (artwork.dataset.title.length > 24) card.classList.add('gallery-stack-card--long-title');
     card.setAttribute('aria-label', `${artwork.dataset.title}: view details`);
     const body = document.createElement('span');
     body.className = 'gallery-stack-card__body';
@@ -70,7 +71,7 @@
     if (stack.hidden) return;
     const width = cards[0].offsetWidth;
     const step = width * 170 / 371;
-    const s = Math.max(0, Math.min(2, -stack.getBoundingClientRect().top / step));
+    const s = Math.max(0, Math.min(cards.length - 1, -stack.getBoundingClientRect().top / step));
     cards.forEach((card, i) => {
       const cover = clamp(s - i);
       const scale = 1 - 0.045 * cover - 0.045 * clamp(s - i - 1);
@@ -84,7 +85,7 @@
   function setGrid(useGrid) {
     grid.hidden = !useGrid;
     stack.hidden = useGrid;
-    toggle.textContent = useGrid ? 'View selected works' : 'View all artworks';
+    toggle.textContent = useGrid ? 'View as stack' : 'View as grid';
     toggle.setAttribute('aria-expanded', String(useGrid));
     if (!useGrid) schedule();
   }
