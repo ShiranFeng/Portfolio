@@ -5,6 +5,7 @@
   if (!grid || !banner) return;
   const artworks = [...grid.querySelectorAll('.artwork-card')];
   if (artworks.length < 3) return;
+  grid.id = 'gallery-all-artworks';
   const heading = grid.querySelector('.gallery-section-heading');
   if (heading) grid.before(heading);
 
@@ -25,7 +26,7 @@
 
   const controls = document.createElement('div');
   controls.className = 'gallery-view-controls';
-  controls.innerHTML = '<span>Selected works / Scroll to explore</span><button type="button" aria-controls="gallery-stack">View all artworks</button>';
+  controls.innerHTML = '<span>Selected works / Scroll to explore</span><button type="button" aria-controls="gallery-all-artworks">View all artworks</button>';
 
   const stack = document.createElement('section');
   stack.id = 'gallery-stack';
